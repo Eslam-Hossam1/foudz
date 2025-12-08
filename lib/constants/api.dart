@@ -83,7 +83,7 @@ class Api {
 
   //wallet
   static const walletBalance = "/wallet/balance";
-  static const walletTopUp = "/wallet/topup";
+  static const walletTopUp = "/wallet/deposits";
   static const walletTransactions = "/wallet/transactions";
   static const myWalletAddress = "/wallet/my/address";
   static const walletAddressesSearch = "/wallet/address/search";
