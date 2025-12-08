@@ -2,6 +2,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dropdown_alert/dropdown_alert.dart';
 import 'package:fuodz/constants/app_theme.dart';
+import 'package:fuodz/create_deposit/presentation/pages/choose_method_page.dart';
 import 'package:fuodz/services/app.service.dart';
 import 'package:fuodz/views/pages/splash.page.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -32,10 +33,9 @@ class MyApp extends StatelessWidget {
           localizationsDelegates: translator.delegates,
           locale: translator.activeLocale,
           supportedLocales: translator.locals(),
-          builder: (context, child) => Stack(
-            children: [child!, DropdownAlert()],
-          ),
-          home: SplashPage(),
+          builder:
+              (context, child) => Stack(children: [child!, DropdownAlert()]),
+          home: ChooseMethodPage(),
           theme: theme,
           darkTheme: darkTheme,
         );
