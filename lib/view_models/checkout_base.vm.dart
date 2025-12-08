@@ -260,7 +260,7 @@ class CheckoutBaseViewModel extends PaymentViewModel {
       "pickup": isPickup ? 1 : 0,
       "delievryAddressOutOfRange": delievryAddressOutOfRange ? 1 : 0,
       "tip": driverTipTEC.text,
-      "delivery_address_id": deliveryAddress!.id ?? "null",
+      "delivery_address_id": deliveryAddress?.id ?? "null",
       "latlng": "${deliveryAddress?.latitude},${deliveryAddress?.longitude}",
       "coupon_code": checkout!.coupon?.code ?? "",
       "vendor_id": vendor!.id,
