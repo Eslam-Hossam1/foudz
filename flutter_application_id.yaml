@@ -1,0 +1,7 @@
+flutter_application_id:
+  android:
+    id: "com.khal.delivery"
+    name: "الخال ديليفري"
+  ios:
+    id: "com.khal.delivery"
+    name: "الخال ديليفري"
