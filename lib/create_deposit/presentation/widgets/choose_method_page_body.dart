@@ -3,6 +3,7 @@ import 'package:fuodz/create_deposit/presentation/pages/cash_deposit_page.dart';
 import 'package:fuodz/create_deposit/presentation/pages/hewalla_deposit_page.dart';
 import 'package:fuodz/create_deposit/presentation/pages/sham_cash_deposit_page.dart';
 import 'package:fuodz/create_deposit/presentation/pages/usdt_deposit_page.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 enum DepositMethod {
   cash(label: "Cash", description: "Pay with local cash currency"),
@@ -47,8 +48,8 @@ class ChooseMethodPageBody extends StatelessWidget {
         final method = DepositMethod.values[index];
         return Card(
           child: ListTile(
-            title: Text(method.label, style: theme.textTheme.titleMedium),
-            subtitle: Text(method.description),
+            title: Text(method.label.tr(), style: theme.textTheme.titleMedium),
+            subtitle: Text(method.description.tr()),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _openMethod(context, method),
           ),

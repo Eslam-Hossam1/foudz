@@ -14,7 +14,7 @@ class CashDepositPage extends StatefulWidget {
 class _CashDepositPageState extends State<CashDepositPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _amountController = TextEditingController();
-  CurrencyOption _selectedCurrency = depositCurrencies.first;
+  CurrencyOption? _selectedCurrency;
   User? _user;
 
   @override
@@ -72,17 +72,25 @@ class _CashDepositPageState extends State<CashDepositPage> {
                     labelText: "Select currency",
                     border: OutlineInputBorder(),
                   ),
+                  hint: const Text("Select currency"),
+                  validator: (value) {
+                    if (value == null) {
+                      return "Please select a currency";
+                    }
+                    return null;
+                  },
                   items:
                       depositCurrencies
                           .map(
                             (currency) => DropdownMenuItem(
                               value: currency,
-                              child: Text(currency.displayName),
+                              child: Text(
+                                "${currency.label} → ${currency.code}",
+                              ),
                             ),
                           )
                           .toList(),
                   onChanged: (value) {
-                    if (value == null) return;
                     setState(() {
                       _selectedCurrency = value;
                     });

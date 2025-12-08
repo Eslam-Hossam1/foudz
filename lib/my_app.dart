@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           supportedLocales: translator.locals(),
           builder:
               (context, child) => Stack(children: [child!, DropdownAlert()]),
-          home: ChooseMethodPage(),
+          home: SplashPage(),
           theme: theme,
           darkTheme: darkTheme,
         );

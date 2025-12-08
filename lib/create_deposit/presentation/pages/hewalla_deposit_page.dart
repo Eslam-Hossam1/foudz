@@ -18,7 +18,7 @@ class HewallaDepositPage extends StatefulWidget {
 class _HewallaDepositPageState extends State<HewallaDepositPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _amountController = TextEditingController();
-  CurrencyOption _selectedCurrency = depositCurrencies.first;
+  CurrencyOption? _selectedCurrency;
   final ImagePicker _picker = ImagePicker();
   File? _receiptImage;
   User? _user;
@@ -98,6 +98,13 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
                     labelText: "Select currency",
                     border: OutlineInputBorder(),
                   ),
+                  hint: const Text("Select currency"),
+                  validator: (value) {
+                    if (value == null) {
+                      return "Please select a currency";
+                    }
+                    return null;
+                  },
                   items:
                       depositCurrencies
                           .map(
@@ -108,7 +115,6 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
                           )
                           .toList(),
                   onChanged: (value) {
-                    if (value == null) return;
                     setState(() {
                       _selectedCurrency = value;
                     });

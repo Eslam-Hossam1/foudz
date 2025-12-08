@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:fuodz/services/app.service.dart';
 // import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 // import 'package:supercharged/supercharged.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'auth.service.dart';
 import 'local_storage.service.dart';
@@ -88,6 +89,14 @@ class HttpService {
     );
     dio = new Dio(baseOptions);
     dio!.interceptors.add(getCacheManager().interceptor);
+    dio!.interceptors.add(PrettyDioLogger(
+          request: true,
+          requestHeader: true,
+          requestBody: true,
+          responseHeader: true,
+          responseBody: true,
+          error: true,
+        ),);
   }
 
   DioCacheManager getCacheManager() {
