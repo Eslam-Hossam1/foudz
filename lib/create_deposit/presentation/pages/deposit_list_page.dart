@@ -5,7 +5,6 @@ import 'package:fuodz/create_deposit/data/datasources/deposit.datasource.dart';
 import 'package:fuodz/create_deposit/data/models/deposit.dart';
 import 'package:fuodz/create_deposit/data/repositories/deposit.repository.dart';
 import 'package:fuodz/create_deposit/logic/cubits/deposit_list/deposit_list.cubit.dart';
-import 'package:fuodz/create_deposit/theme/deposit_app_themes.dart';
 import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
 import 'package:intl/intl.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';

@@ -4,6 +4,7 @@ import 'package:fuodz/constants/app_finance_settings.dart';
 import 'package:fuodz/constants/app_images.dart';
 import 'package:fuodz/constants/app_strings.dart';
 import 'package:fuodz/constants/app_ui_settings.dart';
+import 'package:fuodz/create_deposit/presentation/pages/deposit_list_page.dart';
 import 'package:fuodz/utils/ui_spacer.dart';
 import 'package:fuodz/view_models/profile.vm.dart';
 import 'package:fuodz/widgets/busy_indicator.dart';
@@ -21,150 +22,148 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return model.authenticated
-        ? VStack(
-            [
-              //profile card
-              HStack(
-                [
-                  //
-                  CachedNetworkImage(
-                    imageUrl: model.currentUser?.photo ?? "",
-                    progressIndicatorBuilder: (context, imageUrl, progress) {
-                      return BusyIndicator();
-                    },
-                    errorWidget: (context, imageUrl, progress) {
-                      return Image.asset(
-                        AppImages.user,
-                      );
-                    },
-                  )
-                      .wh(Vx.dp64, Vx.dp64)
-                      .box
-                      .roundedFull
-                      .clip(Clip.antiAlias)
-                      .make(),
+        ? VStack([
+          //profile card
+          HStack([
+                //
+                CachedNetworkImage(
+                      imageUrl: model.currentUser?.photo ?? "",
+                      progressIndicatorBuilder: (context, imageUrl, progress) {
+                        return BusyIndicator();
+                      },
+                      errorWidget: (context, imageUrl, progress) {
+                        return Image.asset(AppImages.user);
+                      },
+                    )
+                    .wh(Vx.dp64, Vx.dp64)
+                    .box
+                    .roundedFull
+                    .clip(Clip.antiAlias)
+                    .make(),
 
-                  //
-                  VStack(
-                    [
-                      //name
-                      model.currentUser!.name.text.xl.semiBold.make(),
-                      //email
-                      model.currentUser!.email.text.light.make(),
-                      //share invation code
-                      AppStrings.enableReferSystem
-                          ? "Share referral code"
-                              .tr()
-                              .text
-                              .sm
-                              .color(context.textTheme.bodyLarge!.color)
-                              .make()
-                              .box
-                              .px4
-                              .roundedSM
-                              .border(color: Colors.grey)
-                              .make()
-                              .onInkTap(model.shareReferralCode)
-                              .py4()
-                          : UiSpacer.emptySpace(),
-                    ],
-                  ).px20().expand(),
+                //
+                VStack([
+                  //name
+                  model.currentUser!.name.text.xl.semiBold.make(),
+                  //email
+                  model.currentUser!.email.text.light.make(),
+                  //share invation code
+                  AppStrings.enableReferSystem
+                      ? "Share referral code"
+                          .tr()
+                          .text
+                          .sm
+                          .color(context.textTheme.bodyLarge!.color)
+                          .make()
+                          .box
+                          .px4
+                          .roundedSM
+                          .border(color: Colors.grey)
+                          .make()
+                          .onInkTap(model.shareReferralCode)
+                          .py4()
+                      : UiSpacer.emptySpace(),
+                ]).px20().expand(),
 
-                  //
-                ],
-              )
-                  .p12()
-                  .wFull(context)
-                  .box
-                  .border(color: Theme.of(context).cardColor)
-                  .color(Theme.of(context).cardColor)
-                  .shadowXs
-                  .roundedSM
-                  .make(),
+                //
+              ])
+              .p12()
+              .wFull(context)
+              .box
+              .border(color: Theme.of(context).cardColor)
+              .color(Theme.of(context).cardColor)
+              .shadowXs
+              .roundedSM
+              .make(),
 
-              10.heightBox,
+          10.heightBox,
 
-              //
-              VStack(
-                [
-                  MenuItem(
-                    title: "Edit Profile".tr(),
-                    onPressed: model.openEditProfile,
-                    prefix: Icon(HugeIcons.strokeRoundedUserEdit01),
-                  ),
-                  //change password
-                  MenuItem(
-                    title: "Change Password".tr(),
-                    onPressed: model.openChangePassword,
-                    prefix: Icon(HugeIcons.strokeRoundedResetPassword),
-                  ),
-                  //referral
-                  CustomVisibilty(
-                    visible: AppStrings.enableReferSystem,
-                    child: MenuItem(
-                      title: "Refer & Earn".tr(),
-                      onPressed: model.openRefer,
-                      prefix: Icon(HugeIcons.strokeRoundedShare01),
-                    ),
-                  ),
-                  //loyalty point
-                  CustomVisibilty(
-                    visible: AppFinanceSettings.enableLoyalty,
-                    child: MenuItem(
-                      title: "Loyalty Points".tr(),
-                      onPressed: model.openLoyaltyPoint,
-                      prefix: Icon(HugeIcons.strokeRoundedGift),
-                    ),
-                  ),
-                  //Wallet
-                  CustomVisibilty(
-                    visible: AppUISettings.allowWallet,
-                    child: MenuItem(
-                      title: "Wallet".tr(),
-                      onPressed: model.openWallet,
-                      prefix: Icon(HugeIcons.strokeRoundedWallet01),
-                    ),
-                  ),
-                  //addresses
-                  MenuItem(
-                    title: "Delivery Addresses".tr(),
-                    onPressed: model.openDeliveryAddresses,
-                    prefix: Icon(HugeIcons.strokeRoundedPinLocation01),
-                  ),
-                  //favourites
-                  MenuItem(
-                    title: "Favourites".tr(),
-                    onPressed: model.openFavourites,
-                    prefix: Icon(HugeIcons.strokeRoundedFavourite),
-                  ),
-                  //
-                  MenuItem(
-                    title: "Logout".tr(),
-                    onPressed: model.logoutPressed,
-                    suffix: Icon(
-                      HugeIcons.strokeRoundedLogout01,
-                      size: 20,
-                    ),
-                  ),
-                  MenuItem(
-                    child: "Delete Account".tr().text.red500.make(),
-                    onPressed: model.deleteAccount,
-                    suffix: Icon(
-                      HugeIcons.strokeRoundedDelete01,
-                      size: 20,
-                      color: Vx.red400,
-                    ),
-                  ),
-                  //
-                  UiSpacer.vSpace(15),
-                ],
+          //
+          VStack([
+            MenuItem(
+              title: "Edit Profile".tr(),
+              onPressed: model.openEditProfile,
+              prefix: Icon(HugeIcons.strokeRoundedUserEdit01),
+            ),
+            //change password
+            MenuItem(
+              title: "Change Password".tr(),
+              onPressed: model.openChangePassword,
+              prefix: Icon(HugeIcons.strokeRoundedResetPassword),
+            ),
+            //referral
+            CustomVisibilty(
+              visible: AppStrings.enableReferSystem,
+              child: MenuItem(
+                title: "Refer & Earn".tr(),
+                onPressed: model.openRefer,
+                prefix: Icon(HugeIcons.strokeRoundedShare01),
               ),
-            ],
-          )
+            ),
+            //loyalty point
+            CustomVisibilty(
+              visible: AppFinanceSettings.enableLoyalty,
+              child: MenuItem(
+                title: "Loyalty Points".tr(),
+                onPressed: model.openLoyaltyPoint,
+                prefix: Icon(HugeIcons.strokeRoundedGift),
+              ),
+            ),
+            //Wallet
+            CustomVisibilty(
+              visible: AppUISettings.allowWallet,
+              child: MenuItem(
+                title: "Wallet".tr(),
+                onPressed: model.openWallet,
+                prefix: Icon(HugeIcons.strokeRoundedWallet01),
+              ),
+            ),
+            // Deposit History
+            CustomVisibilty(
+              visible: AppUISettings.allowWallet,
+              child: MenuItem(
+                title: "Deposit History".tr(),
+                onPressed: () {
+                  context.nextPage(const DepositListPage());
+                },
+                prefix: const Icon(Icons.history),
+              ),
+            ),
+            //addresses
+            MenuItem(
+              title: "Delivery Addresses".tr(),
+              onPressed: model.openDeliveryAddresses,
+              prefix: Icon(HugeIcons.strokeRoundedPinLocation01),
+            ),
+            //favourites
+            MenuItem(
+              title: "Favourites".tr(),
+              onPressed: model.openFavourites,
+              prefix: Icon(HugeIcons.strokeRoundedFavourite),
+            ),
+            //
+            MenuItem(
+              title: "Logout".tr(),
+              onPressed: model.logoutPressed,
+              suffix: Icon(HugeIcons.strokeRoundedLogout01, size: 20),
+            ),
+            MenuItem(
+              child: "Delete Account".tr().text.red500.make(),
+              onPressed: model.deleteAccount,
+              suffix: Icon(
+                HugeIcons.strokeRoundedDelete01,
+                size: 20,
+                color: Vx.red400,
+              ),
+            ),
+            //
+            UiSpacer.vSpace(15),
+          ]),
+        ])
         : EmptyState(
-            auth: true,
-            showAction: true,
-            actionPressed: model.openLogin,
-          ).py12();
+          auth: true,
+          showAction: true,
+          actionPressed: model.openLogin,
+        ).py12();
   }
 }

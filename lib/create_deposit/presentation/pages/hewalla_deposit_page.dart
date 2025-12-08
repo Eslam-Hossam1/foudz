@@ -213,10 +213,13 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
                         const SizedBox(height: 32),
                         BlocBuilder<HewallaDepositCubit, HewallaDepositState>(
                           builder: (context, state) {
-                            return CustomButton(
-                              title: "Submit".tr(),
-                              loading: state is HewallaDepositLoading,
-                              onPressed: () => _submit(context),
+                            return SizedBox(
+                              width: double.infinity,
+                              child: CustomButton(
+                                title: "Submit".tr(),
+                                loading: state is HewallaDepositLoading,
+                                onPressed: () => _submit(context),
+                              ),
                             );
                           },
                         ),

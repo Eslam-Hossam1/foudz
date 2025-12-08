@@ -27,7 +27,7 @@ class ShamCashDepositPage extends StatefulWidget {
 class _ShamCashDepositPageState extends State<ShamCashDepositPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _amountController = TextEditingController();
-  CurrencyOption _selectedCurrency = depositCurrencies.first;
+  CurrencyOption? _selectedCurrency;
   final ImagePicker _picker = ImagePicker();
   File? _receiptImage;
   User? _user;
@@ -80,7 +80,7 @@ class _ShamCashDepositPageState extends State<ShamCashDepositPage> {
     context.read<ShamCashDepositCubit>().submitDeposit(
       amount: amount,
       photoPath: _receiptImage!.path,
-      currency: _selectedCurrency.code,
+      currency: _selectedCurrency!.code,
     );
   }
 
@@ -156,6 +156,13 @@ class _ShamCashDepositPageState extends State<ShamCashDepositPage> {
                           label: "Currency".tr(),
                           value: _selectedCurrency,
                           isRequired: true,
+                          hintText: "Select currency".tr(),
+                          validator: (value) {
+                            if (value == null) {
+                              return "Please select a currency".tr();
+                            }
+                            return null;
+                          },
                           items:
                               depositCurrencies.map((currency) {
                                 return DropdownMenuItem(
@@ -164,7 +171,6 @@ class _ShamCashDepositPageState extends State<ShamCashDepositPage> {
                                 );
                               }).toList(),
                           onChanged: (value) {
-                            if (value == null) return;
                             setState(() {
                               _selectedCurrency = value;
                             });
@@ -207,10 +213,13 @@ class _ShamCashDepositPageState extends State<ShamCashDepositPage> {
                         const SizedBox(height: 32),
                         BlocBuilder<ShamCashDepositCubit, ShamCashDepositState>(
                           builder: (context, state) {
-                            return CustomButton(
-                              title: "Submit".tr(),
-                              loading: state is ShamCashDepositLoading,
-                              onPressed: () => _submit(context),
+                            return SizedBox(
+                              width: double.infinity,
+                              child: CustomButton(
+                                title: "Submit".tr(),
+                                loading: state is ShamCashDepositLoading,
+                                onPressed: () => _submit(context),
+                              ),
                             );
                           },
                         ),
