@@ -5,6 +5,8 @@ import 'package:fuodz/create_deposit/data/datasources/deposit.datasource.dart';
 import 'package:fuodz/create_deposit/data/repositories/deposit.repository.dart';
 import 'package:fuodz/create_deposit/logic/cubits/cash_deposit.cubit.dart';
 import 'package:fuodz/create_deposit/presentation/pages/deposit_list_page.dart';
+import 'package:fuodz/create_deposit/presentation/widgets/deposit_dropdown_field.dart';
+import 'package:fuodz/create_deposit/presentation/widgets/deposit_text_field.dart';
 import 'package:fuodz/models/user.dart';
 import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/widgets/buttons/custom_button.dart';
@@ -50,9 +52,9 @@ class _CashDepositPageState extends State<CashDepositPage> {
     }
     final amount = double.parse(_amountController.text);
     context.read<CashDepositCubit>().submitDeposit(
-      currency: _selectedCurrency!.code,
-      amount: amount,
-    );
+          currency: _selectedCurrency!.code,
+          amount: amount,
+        );
   }
 
   @override
@@ -60,10 +62,9 @@ class _CashDepositPageState extends State<CashDepositPage> {
     final theme = context.depositTheme;
 
     return BlocProvider(
-      create:
-          (context) => CashDepositCubit(
-            DepositRepositoryImpl(DepositRemoteDataSourceImpl()),
-          ),
+      create: (context) => CashDepositCubit(
+        DepositRepositoryImpl(DepositRemoteDataSourceImpl()),
+      ),
       child: Scaffold(
         backgroundColor: context.depositScaffoldBackgroundColor,
         appBar: AppBar(
@@ -74,7 +75,9 @@ class _CashDepositPageState extends State<CashDepositPage> {
             ),
           ),
           backgroundColor: context.depositAppBarBackground,
-          iconTheme: IconThemeData(color: context.depositAppBarForeground),
+          iconTheme: IconThemeData(
+            color: context.depositAppBarForeground,
+          ),
         ),
         body: BlocListener<CashDepositCubit, CashDepositState>(
           listener: (context, state) {
@@ -85,6 +88,7 @@ class _CashDepositPageState extends State<CashDepositPage> {
                 SnackBar(
                   content: Text(
                     state.response.message ?? "Deposit successful".tr(),
+                  
                   ),
                   backgroundColor: Colors.green,
                 ),
@@ -104,92 +108,85 @@ class _CashDepositPageState extends State<CashDepositPage> {
               );
             }
           },
-          child: Builder(
-            builder: (context) {
-              return SafeArea(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Account Holder".tr(),
-                          style: theme.textTheme.labelMedium,
+          child: Builder(builder: (context) {
+            return SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DepositTextField(
+                        label: "Account Holder".tr(),
+                        controller: TextEditingController(
+                          text: _user?.name ?? "Loading...",
                         ),
-                        const SizedBox(height: 4),
-                        if (_user == null)
-                          const LinearProgressIndicator(minHeight: 2)
-                        else
-                          Text(_user!.name, style: theme.textTheme.titleMedium),
-                        const SizedBox(height: 24),
-                        DropdownButtonFormField<CurrencyOption>(
-                          value: _selectedCurrency,
-                          decoration: InputDecoration(
-                            labelText: "Select currency".tr(),
-                            border: const OutlineInputBorder(),
-                          ),
-                          hint: Text("Select currency".tr()),
-                          validator: (value) {
-                            if (value == null) {
-                              return "Please select a currency".tr();
-                            }
-                            return null;
-                          },
-                          items:
-                              depositCurrencies.map((currency) {
-                                return DropdownMenuItem(
-                                  value: currency,
-                                  child: Text(
-                                    "${currency.label} → ${currency.code}",
-                                  ),
-                                );
-                              }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedCurrency = value;
-                            });
-                          },
+                        readOnly: true,
+                        hintText: "Account Holder Name",
+                      ),
+                      const SizedBox(height: 24),
+                      DepositDropdownField<CurrencyOption>(
+                        label: "Currency".tr(),
+                        value: _selectedCurrency,
+                        isRequired: true,
+                        hintText: "Select currency".tr(),
+                        validator: (value) {
+                          if (value == null) {
+                            return "Please select a currency".tr();
+                          }
+                          return null;
+                        },
+                        items: depositCurrencies.map((currency) {
+                          return DropdownMenuItem(
+                            value: currency,
+                            child: Text(
+                              "${currency.label} → ${currency.code}",
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedCurrency = value;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 24),
+                      DepositTextField(
+                        label: "Amount".tr(),
+                        isRequired: true,
+                        controller: _amountController,
+                        hintText: "Enter amount".tr(),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: _amountController,
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: "Amount".tr(),
-                            border: const OutlineInputBorder(),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return "Please enter an amount".tr();
-                            }
-                            final parsed = double.tryParse(value);
-                            if (parsed == null || parsed <= 0) {
-                              return "Enter a valid amount".tr();
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 24),
-                        BlocBuilder<CashDepositCubit, CashDepositState>(
-                          builder: (context, state) {
-                            return CustomButton(
-                              title: "Submit".tr(),
-                              loading: state is CashDepositLoading,
-                              onPressed: () => _submit(context),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return "Please enter an amount".tr();
+                          }
+                          final parsed = double.tryParse(value);
+                          if (parsed == null || parsed <= 0) {
+                            return "Enter a valid amount".tr();
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 32),
+                      BlocBuilder<CashDepositCubit, CashDepositState>(
+                        builder: (context, state) {
+                          return CustomButton(
+                            title: "Submit".tr(),
+                            loading: state is CashDepositLoading,
+                            onPressed: () => _submit(context),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          }),
         ),
       ),
     );

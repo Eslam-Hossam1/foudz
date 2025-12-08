@@ -4,10 +4,10 @@ import 'package:fuodz/create_deposit/data/datasources/deposit.datasource.dart';
 import 'package:fuodz/create_deposit/data/repositories/deposit.repository.dart';
 import 'package:fuodz/create_deposit/logic/cubits/usdt_deposit.cubit.dart';
 import 'package:fuodz/create_deposit/presentation/pages/deposit_list_page.dart';
+import 'package:fuodz/create_deposit/presentation/widgets/deposit_text_field.dart';
 import 'package:fuodz/models/user.dart';
 import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/widgets/buttons/custom_button.dart';
-import 'package:fuodz/create_deposit/theme/deposit_app_themes.dart';
 import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
@@ -110,28 +110,26 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
             builder: (context) {
               return SafeArea(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(24),
                   child: Form(
                     key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Account Holder".tr(),
-                          style: theme.textTheme.labelMedium,
-                        ),
-                        const SizedBox(height: 4),
-                        if (_user == null)
-                          const LinearProgressIndicator(minHeight: 2)
-                        else
-                          Text(_user!.name, style: theme.textTheme.titleMedium),
-                        const SizedBox(height: 24),
-                        TextFormField(
-                          controller: _hashController,
-                          decoration: InputDecoration(
-                            labelText: "Transaction hash".tr(),
-                            border: const OutlineInputBorder(),
+                        DepositTextField(
+                          label: "Account Holder".tr(),
+                          controller: TextEditingController(
+                            text: _user?.name ?? "Loading...",
                           ),
+                          readOnly: true,
+                          hintText: "Account Holder Name",
+                        ),
+                        const SizedBox(height: 24),
+                        DepositTextField(
+                          label: "Transaction hash".tr(),
+                          controller: _hashController,
+                          isRequired: true,
+                          hintText: "Enter transaction hash".tr(),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
                               return "Please enter the transaction hash".tr();
@@ -142,15 +140,14 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
+                        const SizedBox(height: 24),
+                        DepositTextField(
+                          label: "Amount".tr(),
                           controller: _amountController,
+                          isRequired: true,
+                          hintText: "Enter amount".tr(),
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: "Amount".tr(),
-                            border: const OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
@@ -163,7 +160,7 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 32),
                         BlocBuilder<UsdtDepositCubit, UsdtDepositState>(
                           builder: (context, state) {
                             return CustomButton(

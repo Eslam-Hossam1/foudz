@@ -7,12 +7,13 @@ import 'package:fuodz/create_deposit/data/datasources/deposit.datasource.dart';
 import 'package:fuodz/create_deposit/data/repositories/deposit.repository.dart';
 import 'package:fuodz/create_deposit/logic/cubits/hewalla_deposit.cubit.dart';
 import 'package:fuodz/create_deposit/presentation/pages/deposit_list_page.dart';
+import 'package:fuodz/create_deposit/presentation/widgets/deposit_dropdown_field.dart';
+import 'package:fuodz/create_deposit/presentation/widgets/deposit_text_field.dart';
 import 'package:fuodz/models/user.dart';
 import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/widgets/buttons/custom_button.dart';
 import 'package:fuodz/widgets/buttons/image_picker.view.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:fuodz/create_deposit/theme/deposit_app_themes.dart';
 import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
@@ -136,29 +137,26 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
             builder: (context) {
               return SafeArea(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(24),
                   child: Form(
                     key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Account Holder".tr(),
-                          style: theme.textTheme.labelMedium,
-                        ),
-                        const SizedBox(height: 4),
-                        if (_user == null)
-                          const LinearProgressIndicator(minHeight: 2)
-                        else
-                          Text(_user!.name, style: theme.textTheme.titleMedium),
-                        const SizedBox(height: 24),
-                        DropdownButtonFormField<CurrencyOption>(
-                          value: _selectedCurrency,
-                          decoration: InputDecoration(
-                            labelText: "Select currency".tr(),
-                            border: const OutlineInputBorder(),
+                        DepositTextField(
+                          label: "Account Holder".tr(),
+                          controller: TextEditingController(
+                            text: _user?.name ?? "Loading...",
                           ),
-                          hint: Text("Select currency".tr()),
+                          readOnly: true,
+                          hintText: "Account Holder Name",
+                        ),
+                        const SizedBox(height: 24),
+                        DepositDropdownField<CurrencyOption>(
+                          label: "Currency".tr(),
+                          value: _selectedCurrency,
+                          isRequired: true,
+                          hintText: "Select currency".tr(),
                           validator: (value) {
                             if (value == null) {
                               return "Please select a currency".tr();
@@ -178,15 +176,14 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
                             });
                           },
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
+                        const SizedBox(height: 24),
+                        DepositTextField(
+                          label: "Amount".tr(),
                           controller: _amountController,
+                          isRequired: true,
+                          hintText: "Enter amount".tr(),
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
-                          ),
-                          decoration: InputDecoration(
-                            labelText: "Amount".tr(),
-                            border: const OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
@@ -199,13 +196,21 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
                             return null;
                           },
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 24),
+                        Text(
+                          "Receipt Image".tr(),
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: context.depositPrimaryTextColor,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
                         ImagePickerView(
                           _receiptImage,
                           _pickImage,
                           _removeImage,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 32),
                         BlocBuilder<HewallaDepositCubit, HewallaDepositState>(
                           builder: (context, state) {
                             return CustomButton(

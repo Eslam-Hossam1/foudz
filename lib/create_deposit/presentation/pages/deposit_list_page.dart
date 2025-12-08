@@ -1,3 +1,4 @@
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuodz/create_deposit/data/datasources/deposit.datasource.dart';
@@ -60,7 +61,6 @@ class DepositListPage extends StatelessWidget {
     );
   }
 }
-
 class _DepositListTile extends StatelessWidget {
   final Deposit deposit;
 
@@ -70,12 +70,12 @@ class _DepositListTile extends StatelessWidget {
     switch (status.toLowerCase()) {
       case 'approved':
       case 'successful':
-        return Colors.green;
+        return const Color(0xFF2ECC71);
       case 'pending':
-        return Colors.orange;
+        return const Color(0xFFF1C40F);
       case 'rejected':
       case 'failed':
-        return Colors.red;
+        return const Color(0xFFE74C3C);
       default:
         return Colors.grey;
     }
@@ -83,39 +83,53 @@ class _DepositListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We can assume context has the theme because DepositListPage wraps it.
-    // However, if this widget was used elsewhere, we might want to check.
-    // But for now, we use the extension methods directly or via context.depositTheme
     final theme = context.depositTheme;
-    // We can also use context.depositCardColor, etc.
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.depositCardColor,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: context.depositBorderColor.withOpacity(0.25),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
             color: context.depositShadowColor,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
+            blurRadius: 10,
+            spreadRadius: 0,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Row(
         children: [
+          // ICON BOX
           Container(
-            padding: const EdgeInsets.all(8),
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
-              color: theme.primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              gradient: LinearGradient(
+                colors: [
+                  theme.primaryColor.withOpacity(0.15),
+                  theme.primaryColor.withOpacity(0.05),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               Icons.account_balance_wallet,
+              size: 26,
               color: theme.primaryColor,
             ),
           ),
-          const SizedBox(width: 12),
+
+          const SizedBox(width: 14),
+
+          // TITLE + DATE
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,42 +137,52 @@ class _DepositListTile extends StatelessWidget {
                 Text(
                   deposit.method.toUpperCase(),
                   style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.3,
                     color: context.depositPrimaryTextColor,
                   ),
                 ),
                 if (deposit.createdAt != null)
                   Text(
-                    DateFormat('MMM d, y hh:mm a').format(deposit.createdAt!),
+                    DateFormat('MMM d, y • hh:mm a').format(deposit.createdAt!),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: context.depositSecondaryTextColor,
+                      fontSize: 12,
                     ),
                   ),
               ],
             ),
           ),
+
+          const SizedBox(width: 10),
+
+          // AMOUNT + STATUS
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 deposit.displayAmount,
                 style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
                   color: context.depositPrimaryTextColor,
                 ),
               ),
+              const SizedBox(height: 6),
               Container(
-                margin: const EdgeInsets.only(top: 4),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: _getStatusColor(deposit.status).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(4),
+                  color: _getStatusColor(deposit.status).withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(50),
                 ),
                 child: Text(
-                  deposit.status.toUpperCase().tr(),
-                  style: theme.textTheme.bodySmall?.copyWith(
+                  deposit.status.capitalize(),
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
                     color: _getStatusColor(deposit.status),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10,
+                    fontSize: 11,
+                    letterSpacing: 0.3,
                   ),
                 ),
               ),
