@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fuodz/constants/app_colors.dart';
+import 'package:fuodz/create_deposit/theme/deposit_app_colors.dart';
+import 'package:fuodz/create_deposit/theme/deposit_custom_colors.dart';
 import 'package:fuodz/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,6 +39,29 @@ class AppTheme {
       //
       // tabBarTheme: tabBarTheme,
       useMaterial3: true,
+      extensions: [
+        DepositCustomColors(
+          primaryTextColor: DepositAppColors.lightMainTextColor,
+          secondaryTextColor: DepositAppColors.lightSecondaryTextColor,
+          cardColor: DepositAppColors.lightCardColor,
+          borderColor: DepositAppColors.lightBorderColor,
+          primaryButtonBackground:
+              DepositAppColors.lightPrimaryButtonBackground,
+          primaryButtonTextColor: DepositAppColors.lightPrimaryButtonTextColor,
+          secondaryButtonBackground:
+              DepositAppColors.lightSecondaryButtonBackground,
+          secondaryButtonTextColor:
+              DepositAppColors.lightSecondaryButtonTextColor,
+          chipBackgroundColor: DepositAppColors.lightChipBackgroundColor,
+          chipTextColor: DepositAppColors.lightChipTextColor,
+          copyButtonBackground: DepositAppColors.lightCopyButtonBackground,
+          copyButtonBorderColor: DepositAppColors.lightCopyButtonBorderColor,
+          copyButtonTextColor: DepositAppColors.lightCopyButtonTextColor,
+          appBarBackground: DepositAppColors.lightAppBarBackground,
+          appBarForeground: DepositAppColors.lightAppBarForeground,
+          shadowColor: DepositAppColors.lightShadowColor,
+        ),
+      ],
     );
   }
 
@@ -76,6 +101,28 @@ class AppTheme {
       //
       // tabBarTheme: tabBarTheme,
       useMaterial3: true,
+      extensions: [
+        DepositCustomColors(
+          primaryTextColor: DepositAppColors.darkMainTextColor,
+          secondaryTextColor: DepositAppColors.darkSecondaryTextColor,
+          cardColor: DepositAppColors.darkCardColor,
+          borderColor: DepositAppColors.darkBorderColor,
+          primaryButtonBackground: DepositAppColors.darkPrimaryButtonBackground,
+          primaryButtonTextColor: DepositAppColors.darkPrimaryButtonTextColor,
+          secondaryButtonBackground:
+              DepositAppColors.darkSecondaryButtonBackground,
+          secondaryButtonTextColor:
+              DepositAppColors.darkSecondaryButtonTextColor,
+          chipBackgroundColor: DepositAppColors.darkChipBackgroundColor,
+          chipTextColor: DepositAppColors.darkChipTextColor,
+          copyButtonBackground: DepositAppColors.darkCopyButtonBackground,
+          copyButtonBorderColor: DepositAppColors.darkCopyButtonBorderColor,
+          copyButtonTextColor: DepositAppColors.darkCopyButtonTextColor,
+          appBarBackground: DepositAppColors.darkAppBarBackground,
+          appBarForeground: DepositAppColors.darkAppBarForeground,
+          shadowColor: DepositAppColors.darkShadowColor,
+        ),
+      ],
     );
   }
 

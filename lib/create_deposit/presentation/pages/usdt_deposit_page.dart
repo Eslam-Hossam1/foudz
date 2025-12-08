@@ -7,6 +7,9 @@ import 'package:fuodz/create_deposit/presentation/pages/deposit_list_page.dart';
 import 'package:fuodz/models/user.dart';
 import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/widgets/buttons/custom_button.dart';
+import 'package:fuodz/create_deposit/theme/deposit_app_themes.dart';
+import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 class UsdtDepositPage extends StatefulWidget {
   const UsdtDepositPage({super.key});
@@ -56,14 +59,25 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = context.depositTheme;
+
     return BlocProvider(
       create:
           (context) => UsdtDepositCubit(
             DepositRepositoryImpl(DepositRemoteDataSourceImpl()),
           ),
       child: Scaffold(
-        appBar: AppBar(title: const Text("USDT Deposit")),
+        backgroundColor: context.depositScaffoldBackgroundColor,
+        appBar: AppBar(
+          title: Text(
+            "USDT Deposit".tr(),
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: context.depositAppBarForeground,
+            ),
+          ),
+          backgroundColor: context.depositAppBarBackground,
+          iconTheme: IconThemeData(color: context.depositAppBarForeground),
+        ),
         body: BlocListener<UsdtDepositCubit, UsdtDepositState>(
           listener: (context, state) {
             if (state is UsdtDepositLoading) {
@@ -71,7 +85,9 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
             } else if (state is UsdtDepositSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.response.message ?? "Deposit successful"),
+                  content: Text(
+                    state.response.message ?? "Deposit successful".tr(),
+                  ),
                   backgroundColor: Colors.green,
                 ),
               );
@@ -101,7 +117,7 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Account Holder",
+                          "Account Holder".tr(),
                           style: theme.textTheme.labelMedium,
                         ),
                         const SizedBox(height: 4),
@@ -112,16 +128,16 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
                         const SizedBox(height: 24),
                         TextFormField(
                           controller: _hashController,
-                          decoration: const InputDecoration(
-                            labelText: "Transaction hash",
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: "Transaction hash".tr(),
+                            border: const OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              return "Please enter the transaction hash";
+                              return "Please enter the transaction hash".tr();
                             }
                             if (value.trim().length < 10) {
-                              return "Hash looks too short";
+                              return "Hash looks too short".tr();
                             }
                             return null;
                           },
@@ -132,17 +148,17 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
-                          decoration: const InputDecoration(
-                            labelText: "Amount",
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: "Amount".tr(),
+                            border: const OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              return "Please enter an amount";
+                              return "Please enter an amount".tr();
                             }
                             final parsed = double.tryParse(value);
                             if (parsed == null || parsed <= 0) {
-                              return "Enter a valid amount";
+                              return "Enter a valid amount".tr();
                             }
                             return null;
                           },
@@ -151,7 +167,7 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
                         BlocBuilder<UsdtDepositCubit, UsdtDepositState>(
                           builder: (context, state) {
                             return CustomButton(
-                              title: "Submit",
+                              title: "Submit".tr(),
                               loading: state is UsdtDepositLoading,
                               onPressed: () => _submit(context),
                             );

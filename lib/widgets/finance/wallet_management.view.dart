@@ -3,6 +3,7 @@ import 'package:fuodz/constants/app_strings.dart';
 import 'package:fuodz/constants/app_ui_settings.dart';
 import 'package:fuodz/constants/sizes.dart';
 import 'package:fuodz/create_deposit/presentation/widgets/choose_method_page_body.dart';
+import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
 import 'package:fuodz/extensions/string.dart';
 import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/utils/ui_spacer.dart';
@@ -35,18 +36,23 @@ class WalletManagementView extends StatefulWidget {
 class _WalletManagementViewState extends State<WalletManagementView>
     with WidgetsBindingObserver {
   WalletViewModel? mViewmodel;
-
   void _showDepositSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: context.depositScaffoldBackgroundColor,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (sheetContext) {
         final bottomInset = MediaQuery.of(sheetContext).viewInsets.bottom;
         return Padding(
-          padding: EdgeInsets.only(bottom: bottomInset),
+          padding: EdgeInsets.only(
+            bottom: bottomInset,
+            left: 16,
+            right: 16,
+            top: 12,
+          ),
           child: const SizedBox(height: 420, child: ChooseMethodPageBody()),
         );
       },

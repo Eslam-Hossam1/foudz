@@ -3,6 +3,8 @@ import 'package:fuodz/create_deposit/presentation/pages/cash_deposit_page.dart';
 import 'package:fuodz/create_deposit/presentation/pages/hewalla_deposit_page.dart';
 import 'package:fuodz/create_deposit/presentation/pages/sham_cash_deposit_page.dart';
 import 'package:fuodz/create_deposit/presentation/pages/usdt_deposit_page.dart';
+import 'package:fuodz/create_deposit/theme/deposit_app_themes.dart';
+import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 enum DepositMethod {
@@ -53,22 +55,59 @@ class ChooseMethodPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemBuilder: (context, index) {
-        final method = DepositMethod.values[index];
-        return Card(
-          child: ListTile(
-            title: Text(method.label.tr(), style: theme.textTheme.titleMedium),
-            subtitle: Text(method.description.tr()),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => _openMethod(context, method),
-          ),
-        );
-      },
-      separatorBuilder: (_, __) => const SizedBox(height: 8),
-      itemCount: DepositMethod.values.length,
+    final theme = context.depositTheme;
+
+    // Wrap with Theme so it works inside standard BottomSheet or Page
+    return Container(
+      color: context.depositScaffoldBackgroundColor,
+      child: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemBuilder: (context, index) {
+          final method = DepositMethod.values[index];
+          return Container(
+            decoration: BoxDecoration(
+              color: context.depositCardColor,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: context.depositBorderColor.withOpacity(0.6),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: context.depositShadowColor,
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 12,
+              ),
+              title: Text(
+                method.label.tr(),
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: context.depositPrimaryTextColor,
+                ),
+              ),
+              subtitle: Text(
+                method.description.tr(),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: context.depositSecondaryTextColor,
+                ),
+              ),
+              trailing: Icon(
+                Icons.chevron_right,
+                color: context.depositSecondaryTextColor,
+              ),
+              onTap: () => _openMethod(context, method),
+            ),
+          );
+        },
+        separatorBuilder: (_, __) => const SizedBox(height: 8),
+        itemCount: DepositMethod.values.length,
+      ),
     );
   }
 }

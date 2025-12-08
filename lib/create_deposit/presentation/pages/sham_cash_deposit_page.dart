@@ -12,6 +12,9 @@ import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/widgets/buttons/custom_button.dart';
 import 'package:fuodz/widgets/buttons/image_picker.view.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:fuodz/create_deposit/theme/deposit_app_themes.dart';
+import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 class ShamCashDepositPage extends StatefulWidget {
   const ShamCashDepositPage({super.key});
@@ -68,7 +71,7 @@ class _ShamCashDepositPageState extends State<ShamCashDepositPage> {
     }
     if (_receiptImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please upload the payment receipt")),
+        SnackBar(content: Text("Please upload the payment receipt".tr())),
       );
       return;
     }
@@ -82,128 +85,149 @@ class _ShamCashDepositPageState extends State<ShamCashDepositPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return BlocProvider(
-      create:
-          (context) => ShamCashDepositCubit(
-            DepositRepositoryImpl(DepositRemoteDataSourceImpl()),
-          ),
-      child: Scaffold(
-        appBar: AppBar(title: const Text("Sham Cash Deposit")),
-        body: BlocListener<ShamCashDepositCubit, ShamCashDepositState>(
-          listener: (context, state) {
-            if (state is ShamCashDepositLoading) {
-              // Loading
-            } else if (state is ShamCashDepositSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.response.message ?? "Deposit successful"),
-                  backgroundColor: Colors.green,
+            final theme = context.depositTheme;
+
+     
+        return BlocProvider(
+          create:
+              (context) => ShamCashDepositCubit(
+                DepositRepositoryImpl(DepositRemoteDataSourceImpl()),
+              ),
+          child: Scaffold(
+            backgroundColor: context.depositScaffoldBackgroundColor,
+            appBar: AppBar(
+              title: Text(
+                "Sham Cash Deposit".tr(),
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: context.depositAppBarForeground,
                 ),
-              );
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const DepositListPage(),
-                ),
-              );
-            } else if (state is ShamCashDepositFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-          child: Builder(
-            builder: (context) {
-              return SafeArea(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Account Holder",
-                          style: theme.textTheme.labelMedium,
-                        ),
-                        const SizedBox(height: 4),
-                        if (_user == null)
-                          const LinearProgressIndicator(minHeight: 2)
-                        else
-                          Text(_user!.name, style: theme.textTheme.titleMedium),
-                        const SizedBox(height: 24),
-                        DropdownButtonFormField<CurrencyOption>(
-                          value: _selectedCurrency,
-                          decoration: const InputDecoration(
-                            labelText: "Select currency",
-                            border: OutlineInputBorder(),
-                          ),
-                          items:
-                              depositCurrencies
-                                  .map(
-                                    (currency) => DropdownMenuItem(
+              ),
+              backgroundColor: context.depositAppBarBackground,
+              iconTheme: IconThemeData(
+                color: context.depositAppBarForeground,
+              ),
+            ),
+            body: BlocListener<ShamCashDepositCubit, ShamCashDepositState>(
+              listener: (context, state) {
+                if (state is ShamCashDepositLoading) {
+                  // Loading
+                } else if (state is ShamCashDepositSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        state.response.message ?? "Deposit successful".tr(),
+                      ),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DepositListPage(),
+                    ),
+                  );
+                } else if (state is ShamCashDepositFailure) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+              child: Builder(
+                builder: (context) {
+                  return SafeArea(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Account Holder".tr(),
+                              style: theme.textTheme.labelMedium,
+                            ),
+                            const SizedBox(height: 4),
+                            if (_user == null)
+                              const LinearProgressIndicator(minHeight: 2)
+                            else
+                              Text(
+                                _user!.name,
+                                style: theme.textTheme.titleMedium,
+                              ),
+                            const SizedBox(height: 24),
+                            DropdownButtonFormField<CurrencyOption>(
+                              value: _selectedCurrency,
+                              decoration: InputDecoration(
+                                labelText: "Select currency".tr(),
+                                border: const OutlineInputBorder(),
+                              ),
+                              items:
+                                  depositCurrencies.map((currency) {
+                                    return DropdownMenuItem(
                                       value: currency,
                                       child: Text(currency.displayName),
-                                    ),
-                                  )
-                                  .toList(),
-                          onChanged: (value) {
-                            if (value == null) return;
-                            setState(() {
-                              _selectedCurrency = value;
-                            });
-                          },
+                                    );
+                                  }).toList(),
+                              onChanged: (value) {
+                                if (value == null) return;
+                                setState(() {
+                                  _selectedCurrency = value;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            TextFormField(
+                              controller: _amountController,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+                              decoration: InputDecoration(
+                                labelText: "Amount".tr(),
+                                border: const OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "Please enter an amount".tr();
+                                }
+                                final parsed = double.tryParse(value);
+                                if (parsed == null || parsed <= 0) {
+                                  return "Enter a valid amount".tr();
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            ImagePickerView(
+                              _receiptImage,
+                              _pickImage,
+                              _removeImage,
+                            ),
+                            const SizedBox(height: 24),
+                            BlocBuilder<
+                              ShamCashDepositCubit,
+                              ShamCashDepositState
+                            >(
+                              builder: (context, state) {
+                                return CustomButton(
+                                  title: "Submit".tr(),
+                                  loading: state is ShamCashDepositLoading,
+                                  onPressed: () => _submit(context),
+                                );
+                              },
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: _amountController,
-                          keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true,
-                          ),
-                          decoration: const InputDecoration(
-                            labelText: "Amount",
-                            border: OutlineInputBorder(),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return "Please enter an amount";
-                            }
-                            final parsed = double.tryParse(value);
-                            if (parsed == null || parsed <= 0) {
-                              return "Enter a valid amount";
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        ImagePickerView(
-                          _receiptImage,
-                          _pickImage,
-                          _removeImage,
-                        ),
-                        const SizedBox(height: 24),
-                        BlocBuilder<ShamCashDepositCubit, ShamCashDepositState>(
-                          builder: (context, state) {
-                            return CustomButton(
-                              title: "Submit",
-                              loading: state is ShamCashDepositLoading,
-                              onPressed: () => _submit(context),
-                            );
-                          },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        );
   }
 }

@@ -12,6 +12,9 @@ import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/widgets/buttons/custom_button.dart';
 import 'package:fuodz/widgets/buttons/image_picker.view.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:fuodz/create_deposit/theme/deposit_app_themes.dart';
+import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 class HewallaDepositPage extends StatefulWidget {
   const HewallaDepositPage({super.key});
@@ -68,7 +71,7 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
     }
     if (_receiptImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please upload the payment receipt")),
+        SnackBar(content: Text("Please upload the payment receipt".tr())),
       );
       return;
     }
@@ -82,22 +85,35 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = context.depositTheme;
+
     return BlocProvider(
       create:
           (context) => HewallaDepositCubit(
             DepositRepositoryImpl(DepositRemoteDataSourceImpl()),
           ),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Hewalla Deposit")),
+        backgroundColor: context.depositScaffoldBackgroundColor,
+        appBar: AppBar(
+          title: Text(
+            "Hewalla Deposit".tr(),
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: context.depositAppBarForeground,
+            ),
+          ),
+          backgroundColor: context.depositAppBarBackground,
+          iconTheme: IconThemeData(color: context.depositAppBarForeground),
+        ),
         body: BlocListener<HewallaDepositCubit, HewallaDepositState>(
           listener: (context, state) {
             if (state is HewallaDepositLoading) {
               // Loading
             } else if (state is HewallaDepositSuccess) {
-                            ScaffoldMessenger.of(context).showSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.response.message ?? "Deposit successful"),
+                  content: Text(
+                    state.response.message ?? "Deposit successful".tr(),
+                  ),
                   backgroundColor: Colors.green,
                 ),
               );
@@ -127,7 +143,7 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Account Holder",
+                          "Account Holder".tr(),
                           style: theme.textTheme.labelMedium,
                         ),
                         const SizedBox(height: 4),
@@ -138,26 +154,24 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
                         const SizedBox(height: 24),
                         DropdownButtonFormField<CurrencyOption>(
                           value: _selectedCurrency,
-                          decoration: const InputDecoration(
-                            labelText: "Select currency",
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: "Select currency".tr(),
+                            border: const OutlineInputBorder(),
                           ),
-                          hint: const Text("Select currency"),
+                          hint: Text("Select currency".tr()),
                           validator: (value) {
                             if (value == null) {
-                              return "Please select a currency";
+                              return "Please select a currency".tr();
                             }
                             return null;
                           },
                           items:
-                              depositCurrencies
-                                  .map(
-                                    (currency) => DropdownMenuItem(
-                                      value: currency,
-                                      child: Text(currency.displayName),
-                                    ),
-                                  )
-                                  .toList(),
+                              depositCurrencies.map((currency) {
+                                return DropdownMenuItem(
+                                  value: currency,
+                                  child: Text(currency.displayName),
+                                );
+                              }).toList(),
                           onChanged: (value) {
                             setState(() {
                               _selectedCurrency = value;
@@ -170,17 +184,17 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
-                          decoration: const InputDecoration(
-                            labelText: "Amount",
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: "Amount".tr(),
+                            border: const OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              return "Please enter an amount";
+                              return "Please enter an amount".tr();
                             }
                             final parsed = double.tryParse(value);
                             if (parsed == null || parsed <= 0) {
-                              return "Enter a valid amount";
+                              return "Enter a valid amount".tr();
                             }
                             return null;
                           },
@@ -195,7 +209,7 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
                         BlocBuilder<HewallaDepositCubit, HewallaDepositState>(
                           builder: (context, state) {
                             return CustomButton(
-                              title: "Submit",
+                              title: "Submit".tr(),
                               loading: state is HewallaDepositLoading,
                               onPressed: () => _submit(context),
                             );

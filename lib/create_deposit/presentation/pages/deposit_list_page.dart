@@ -1,29 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuodz/create_deposit/data/datasources/deposit.datasource.dart';
+import 'package:fuodz/create_deposit/data/models/deposit.dart';
 import 'package:fuodz/create_deposit/data/repositories/deposit.repository.dart';
 import 'package:fuodz/create_deposit/logic/cubits/deposit_list/deposit_list.cubit.dart';
-import 'package:fuodz/create_deposit/data/models/deposit.dart';
+import 'package:fuodz/create_deposit/theme/deposit_app_themes.dart';
+import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
 import 'package:intl/intl.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 class DepositListPage extends StatelessWidget {
   const DepositListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.depositTheme;
+
     return BlocProvider(
       create:
           (context) => DepositListCubit(
             DepositRepositoryImpl(DepositRemoteDataSourceImpl()),
           )..getDeposits(),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Deposit History")),
+        backgroundColor: context.depositScaffoldBackgroundColor,
+        appBar: AppBar(
+          title: Text(
+            "Deposit History".tr(),
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: context.depositAppBarForeground,
+            ),
+          ),
+          backgroundColor: context.depositAppBarBackground,
+          iconTheme: IconThemeData(color: context.depositAppBarForeground),
+        ),
         body: BlocBuilder<DepositListCubit, DepositListState>(
           builder: (context, state) {
             if (state is DepositListLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is DepositListEmpty) {
-              return const Center(child: Text("No deposits found"));
+              return Center(child: Text("No deposits found".tr()));
             } else if (state is DepositListFailure) {
               return Center(child: Text(state.message));
             } else if (state is DepositListSuccess) {
@@ -68,15 +83,20 @@ class _DepositListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    // We can assume context has the theme because DepositListPage wraps it.
+    // However, if this widget was used elsewhere, we might want to check.
+    // But for now, we use the extension methods directly or via context.depositTheme
+    final theme = context.depositTheme;
+    // We can also use context.depositCardColor, etc.
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: theme.cardColor,
+        color: context.depositCardColor,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: context.depositShadowColor,
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -102,12 +122,16 @@ class _DepositListTile extends StatelessWidget {
               children: [
                 Text(
                   deposit.method.toUpperCase(),
-                  style: theme.textTheme.titleMedium,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: context.depositPrimaryTextColor,
+                  ),
                 ),
                 if (deposit.createdAt != null)
                   Text(
                     DateFormat('MMM d, y hh:mm a').format(deposit.createdAt!),
-                    style: theme.textTheme.bodySmall,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: context.depositSecondaryTextColor,
+                    ),
                   ),
               ],
             ),
@@ -119,6 +143,7 @@ class _DepositListTile extends StatelessWidget {
                 deposit.displayAmount,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
+                  color: context.depositPrimaryTextColor,
                 ),
               ),
               Container(
@@ -129,7 +154,7 @@ class _DepositListTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  deposit.status.toUpperCase(),
+                  deposit.status.toUpperCase().tr(),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: _getStatusColor(deposit.status),
                     fontWeight: FontWeight.bold,

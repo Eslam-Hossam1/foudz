@@ -8,7 +8,8 @@ import 'package:fuodz/create_deposit/presentation/pages/deposit_list_page.dart';
 import 'package:fuodz/models/user.dart';
 import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/widgets/buttons/custom_button.dart';
-import 'package:velocity_x/velocity_x.dart';
+import 'package:fuodz/create_deposit/theme/deposit_theme_extension.dart';
+import 'package:localize_and_translate/localize_and_translate.dart';
 
 class CashDepositPage extends StatefulWidget {
   const CashDepositPage({super.key});
@@ -56,14 +57,25 @@ class _CashDepositPageState extends State<CashDepositPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = context.depositTheme;
+
     return BlocProvider(
       create:
           (context) => CashDepositCubit(
             DepositRepositoryImpl(DepositRemoteDataSourceImpl()),
           ),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Cash Deposit")),
+        backgroundColor: context.depositScaffoldBackgroundColor,
+        appBar: AppBar(
+          title: Text(
+            "Cash Deposit".tr(),
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: context.depositAppBarForeground,
+            ),
+          ),
+          backgroundColor: context.depositAppBarBackground,
+          iconTheme: IconThemeData(color: context.depositAppBarForeground),
+        ),
         body: BlocListener<CashDepositCubit, CashDepositState>(
           listener: (context, state) {
             if (state is CashDepositLoading) {
@@ -71,7 +83,9 @@ class _CashDepositPageState extends State<CashDepositPage> {
             } else if (state is CashDepositSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.response.message ?? "Deposit successful"),
+                  content: Text(
+                    state.response.message ?? "Deposit successful".tr(),
+                  ),
                   backgroundColor: Colors.green,
                 ),
               );
@@ -101,7 +115,7 @@ class _CashDepositPageState extends State<CashDepositPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Account Holder",
+                          "Account Holder".tr(),
                           style: theme.textTheme.labelMedium,
                         ),
                         const SizedBox(height: 4),
@@ -112,28 +126,26 @@ class _CashDepositPageState extends State<CashDepositPage> {
                         const SizedBox(height: 24),
                         DropdownButtonFormField<CurrencyOption>(
                           value: _selectedCurrency,
-                          decoration: const InputDecoration(
-                            labelText: "Select currency",
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: "Select currency".tr(),
+                            border: const OutlineInputBorder(),
                           ),
-                          hint: const Text("Select currency"),
+                          hint: Text("Select currency".tr()),
                           validator: (value) {
                             if (value == null) {
-                              return "Please select a currency";
+                              return "Please select a currency".tr();
                             }
                             return null;
                           },
                           items:
-                              depositCurrencies
-                                  .map(
-                                    (currency) => DropdownMenuItem(
-                                      value: currency,
-                                      child: Text(
-                                        "${currency.label} → ${currency.code}",
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
+                              depositCurrencies.map((currency) {
+                                return DropdownMenuItem(
+                                  value: currency,
+                                  child: Text(
+                                    "${currency.label} → ${currency.code}",
+                                  ),
+                                );
+                              }).toList(),
                           onChanged: (value) {
                             setState(() {
                               _selectedCurrency = value;
@@ -146,17 +158,17 @@ class _CashDepositPageState extends State<CashDepositPage> {
                           keyboardType: const TextInputType.numberWithOptions(
                             decimal: true,
                           ),
-                          decoration: const InputDecoration(
-                            labelText: "Amount",
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: "Amount".tr(),
+                            border: const OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              return "Please enter an amount";
+                              return "Please enter an amount".tr();
                             }
                             final parsed = double.tryParse(value);
                             if (parsed == null || parsed <= 0) {
-                              return "Enter a valid amount";
+                              return "Enter a valid amount".tr();
                             }
                             return null;
                           },
@@ -165,7 +177,7 @@ class _CashDepositPageState extends State<CashDepositPage> {
                         BlocBuilder<CashDepositCubit, CashDepositState>(
                           builder: (context, state) {
                             return CustomButton(
-                              title: "Submit",
+                              title: "Submit".tr(),
                               loading: state is CashDepositLoading,
                               onPressed: () => _submit(context),
                             );
