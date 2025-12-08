@@ -15,25 +15,25 @@ extension NumberParsing on dynamic {
       final decimalsValue = "".padLeft(decimals.toString().toInt()!, "0");
 
       //
-      //
-      final values = this
-          .toString()
-          .split(" ")
-          .join("")
-          .split(currencySymbol ?? AppStrings.currencySymbol);
+      final symbol = currencySymbol ?? AppStrings.currencySymbol;
+      final values = this.toString().split(" ").join("").split(symbol);
+
+      // Fix: Handle case where currency symbol is not in the string
+      final valueToFormat = values.length > 1 ? values[1] : values[0];
 
       //
       CurrencyFormat currencySettings = CurrencyFormat(
-        symbol: currencySymbol ?? AppStrings.currencySymbol,
-        symbolSide: currencylOCATION.toLowerCase() == "left"
-            ? SymbolSide.left
-            : SymbolSide.right,
+        symbol: symbol,
+        symbolSide:
+            currencylOCATION.toLowerCase() == "left"
+                ? SymbolSide.left
+                : SymbolSide.right,
         thousandSeparator: thousandSeparator,
         decimalSeparator: decimalSeparator,
       );
 
       return CurrencyFormatter.format(
-        values[1],
+        valueToFormat,
         currencySettings,
         decimal: decimalsValue.length,
         enforceDecimals: true,
@@ -41,9 +41,8 @@ extension NumberParsing on dynamic {
     } else {
       return this.toString();
     }
-  }
+  } //
 
-  //
   String currencyValueFormat() {
     final uiConfig = AppStrings.uiConfig;
     if (uiConfig != null && uiConfig["currency"] != null) {
