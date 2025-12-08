@@ -13,12 +13,14 @@ class ShamCashDepositCubit extends Cubit<ShamCashDepositState> {
   Future<void> submitDeposit({
     required double amount,
     String? photoPath,
+    required String currency,
   }) async {
     emit(ShamCashDepositLoading());
     try {
       final request = ShamCashDepositRequest(
         amount: amount,
         photoPath: photoPath,
+        currency: currency,
       );
       final response = await _repository.createDeposit(request);
       if (response.allGood) {

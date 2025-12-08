@@ -6,6 +6,7 @@ import 'package:fuodz/create_deposit/data/currency_options.dart';
 import 'package:fuodz/create_deposit/data/datasources/deposit.datasource.dart';
 import 'package:fuodz/create_deposit/data/repositories/deposit.repository.dart';
 import 'package:fuodz/create_deposit/logic/cubits/hewalla_deposit.cubit.dart';
+import 'package:fuodz/create_deposit/presentation/pages/deposit_list_page.dart';
 import 'package:fuodz/models/user.dart';
 import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/widgets/buttons/custom_button.dart';
@@ -75,6 +76,7 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
     context.read<HewallaDepositCubit>().submitDeposit(
       amount: amount,
       photoPath: _receiptImage!.path,
+      currency: _selectedCurrency!.code,
     );
   }
 
@@ -93,13 +95,18 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
             if (state is HewallaDepositLoading) {
               // Loading
             } else if (state is HewallaDepositSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.response.message ?? "Deposit successful"),
                   backgroundColor: Colors.green,
                 ),
               );
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const DepositListPage(),
+                ),
+              );
             } else if (state is HewallaDepositFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

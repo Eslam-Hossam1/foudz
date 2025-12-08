@@ -18,7 +18,11 @@ class DepositRemoteDataSourceImpl extends HttpService
     final Map<String, dynamic> data = request.toJson();
 
     // Determine content type based on if it has a file (multipart) or not
-    bool isMultipart = data.containsKey('photo');
+    bool isMultipart =
+        data.containsKey('photo') ||
+        data.containsKey(
+          'screenshot',
+        ); // User specified 'screenshot', keeping 'photo' for backward compat or other methods if any.
 
     FormData? formData;
     if (isMultipart) {

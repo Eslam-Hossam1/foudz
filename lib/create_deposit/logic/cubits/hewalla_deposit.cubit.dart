@@ -13,12 +13,14 @@ class HewallaDepositCubit extends Cubit<HewallaDepositState> {
   Future<void> submitDeposit({
     required double amount,
     String? photoPath,
+    required String currency,
   }) async {
     emit(HewallaDepositLoading());
     try {
       final request = HewallaDepositRequest(
         amount: amount,
         photoPath: photoPath,
+        currency: currency,
       );
       final response = await _repository.createDeposit(request);
       if (response.allGood) {

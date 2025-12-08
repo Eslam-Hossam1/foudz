@@ -38,15 +38,22 @@ class HewallaDepositRequest extends DepositRequest {
   final String method = "transfer"; // "transfer" seems to correspond to hewalla/transfer in the prompt description "method (string, required): one of (cash, transfer, shamcash, usdt)"
   final double amount;
   final String? photoPath; // Path to the screenshot file
+  final String currency;
 
-  HewallaDepositRequest({required this.amount, this.photoPath});
+  HewallaDepositRequest({
+    required this.amount,
+    this.photoPath,
+    required this.currency,
+  });
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "method": method,
       "amount": amount,
-      if (photoPath != null) "photo": MultipartFile.fromFileSync(photoPath!),
+      "currency": currency,
+      if (photoPath != null)
+        "screenshot": MultipartFile.fromFileSync(photoPath!),
     };
   }
 }
@@ -56,15 +63,22 @@ class ShamCashDepositRequest extends DepositRequest {
   final String method = "shamcash";
   final double amount;
   final String? photoPath;
+  final String currency;
 
-  ShamCashDepositRequest({required this.amount, this.photoPath});
+  ShamCashDepositRequest({
+    required this.amount,
+    this.photoPath,
+    required this.currency,
+  });
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "method": method,
       "amount": amount,
-      if (photoPath != null) "photo": MultipartFile.fromFileSync(photoPath!),
+      "currency": currency,
+      if (photoPath != null)
+        "screenshot": MultipartFile.fromFileSync(photoPath!),
     };
   }
 }
