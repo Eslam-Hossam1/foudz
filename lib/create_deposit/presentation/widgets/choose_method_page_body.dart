@@ -6,10 +6,22 @@ import 'package:fuodz/create_deposit/presentation/pages/usdt_deposit_page.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 enum DepositMethod {
-  cash(label: "Cash", description: "Pay with local cash currency"),
-  usdt(label: "USDT", description: "Submit blockchain transaction hash"),
-  hewalla(label: "Hewalla", description: "Use Hewalla with receipt upload"),
-  shamCash(label: "Sham Cash", description: "Use Sham Cash like Hewalla");
+  cash(label: "Cash", description: "Pay in cash at our office/agent"),
+  usdt(
+    label: "USDT",
+    description:
+        "Send USDT to the address, then enter the net amount and transaction hash",
+  ),
+  hewalla(
+    label: "Transfer",
+    description:
+        "Make a bank transfer to the provided account and upload the receipt",
+  ),
+  shamCash(
+    label: "Sham Cash",
+    description:
+        "Send via Sham Cash to the provided number and upload a screenshot",
+  );
 
   const DepositMethod({required this.label, required this.description});
 
