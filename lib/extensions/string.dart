@@ -7,21 +7,37 @@ extension NumberParsing on dynamic {
   String currencyFormat([String? currencySymbol]) {
     final uiConfig = AppStrings.uiConfig;
     if (uiConfig != null && uiConfig["currency"] != null) {
-      //
       final thousandSeparator = uiConfig["currency"]["format"] ?? ",";
       final decimalSeparator = uiConfig["currency"]["decimal_format"] ?? ".";
       final decimals = uiConfig["currency"]["decimals"];
       final currencylOCATION = uiConfig["currency"]["location"] ?? 'left';
       final decimalsValue = "".padLeft(decimals.toString().toInt()!, "0");
 
-      //
       final symbol = currencySymbol ?? AppStrings.currencySymbol;
-      final values = this.toString().split(" ").join("").split(symbol);
 
-      // Fix: Handle case where currency symbol is not in the string
-      final valueToFormat = values.length > 1 ? values[1] : values[0];
+      // Remove currency symbol and spaces
+      String cleanValue = this.toString();
 
-      //
+      // Remove known currency symbols
+      cleanValue = cleanValue.replaceAll(symbol, '').replaceAll(' ', '').trim();
+
+      // Remove any remaining non-numeric characters except dots and commas
+      cleanValue = cleanValue.replaceAll(RegExp(r'[^0-9.,]'), '');
+
+      // Normalize decimal separator to dot for parsing
+      if (decimalSeparator == ",") {
+        // If decimal is comma, replace it with dot for parsing
+        cleanValue = cleanValue.replaceAll(',', '.');
+      } else {
+        // If decimal is dot, remove commas (thousand separators)
+        cleanValue = cleanValue.replaceAll(',', '');
+      }
+
+      // Handle empty or invalid values
+      if (cleanValue.isEmpty || double.tryParse(cleanValue) == null) {
+        cleanValue = "0";
+      }
+
       CurrencyFormat currencySettings = CurrencyFormat(
         symbol: symbol,
         symbolSide:
@@ -33,7 +49,7 @@ extension NumberParsing on dynamic {
       );
 
       return CurrencyFormatter.format(
-        valueToFormat,
+        cleanValue,
         currencySettings,
         decimal: decimalsValue.length,
         enforceDecimals: true,
@@ -41,7 +57,7 @@ extension NumberParsing on dynamic {
     } else {
       return this.toString();
     }
-  } //
+  }
 
   String currencyValueFormat() {
     final uiConfig = AppStrings.uiConfig;
