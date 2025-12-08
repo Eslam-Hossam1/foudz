@@ -11,12 +11,7 @@ class ApiResponse {
   dynamic body;
   List? errors;
 
-  ApiResponse({
-    this.code,
-    this.message,
-    this.body,
-    this.errors,
-  });
+  ApiResponse({this.code, this.message, this.body, this.errors});
 
   factory ApiResponse.fromResponse(dynamic response) {
     //
@@ -27,6 +22,7 @@ class ApiResponse {
 
     switch (code) {
       case 200:
+      case 201:
         try {
           message = body is Map ? (body["message"] ?? "") : "";
         } catch (error) {
@@ -35,7 +31,8 @@ class ApiResponse {
 
         break;
       default:
-        message = body["message"] ??
+        message =
+            body["message"] ??
             "Whoops! Something went wrong, please contact support.";
         errors.add(message);
         break;

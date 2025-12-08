@@ -4,6 +4,7 @@ import 'package:fuodz/create_deposit/data/currency_options.dart';
 import 'package:fuodz/create_deposit/data/datasources/deposit.datasource.dart';
 import 'package:fuodz/create_deposit/data/repositories/deposit.repository.dart';
 import 'package:fuodz/create_deposit/logic/cubits/cash_deposit.cubit.dart';
+import 'package:fuodz/create_deposit/presentation/pages/deposit_list_page.dart';
 import 'package:fuodz/models/user.dart';
 import 'package:fuodz/services/auth.service.dart';
 import 'package:fuodz/widgets/buttons/custom_button.dart';
@@ -74,7 +75,12 @@ class _CashDepositPageState extends State<CashDepositPage> {
                   backgroundColor: Colors.green,
                 ),
               );
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const DepositListPage(),
+                ),
+              );
             } else if (state is CashDepositFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

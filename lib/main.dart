@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fuodz/app_bloc_observer.dart';
 import 'package:fuodz/my_app.dart';
 import 'package:fuodz/services/cart.service.dart';
 import 'package:fuodz/services/general_app.service.dart';
@@ -33,6 +35,7 @@ void main() async {
 
   // Ensure that all Flutter bindings are initialized before calling native code.
   WidgetsFlutterBinding.ensureInitialized();
+  Bloc.observer = AppBlocObserver();
 
   // THE FIX: Initialize the DEFAULT Firebase app by removing the 'name' parameter.
   // This is the standard and correct way to do it.

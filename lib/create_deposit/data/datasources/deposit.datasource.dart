@@ -4,8 +4,11 @@ import 'package:fuodz/models/api_response.dart';
 import 'package:fuodz/services/http.service.dart';
 import 'package:fuodz/create_deposit/data/models/deposit_request_models.dart';
 
+import 'package:fuodz/create_deposit/data/models/deposit.dart';
+
 abstract class DepositRemoteDataSource {
   Future<ApiResponse> createDeposit(DepositRequest request);
+  Future<List<Deposit>> getDeposits();
 }
 
 class DepositRemoteDataSourceImpl extends HttpService
@@ -33,5 +36,17 @@ class DepositRemoteDataSourceImpl extends HttpService
     );
 
     return ApiResponse.fromResponse(apiResult);
+  }
+
+  @override
+  Future<List<Deposit>> getDeposits() async {
+    final apiResult = await get(Api.walletTopUp);
+    final apiResponse = ApiResponse.fromResponse(apiResult);
+    if (apiResponse.allGood) {
+      return (apiResponse.body as List)
+          .map((e) => Deposit.fromJson(e))
+          .toList();
+    }
+    throw apiResponse.message!;
   }
 }
