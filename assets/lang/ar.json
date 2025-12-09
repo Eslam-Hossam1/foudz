@@ -750,5 +750,10 @@
     "No deposits found": "لا توجد إيداعات",
     "Deposit request submitted and pending admin approval": "تم إرسال طلب الإيداع وهو في انتظار موافقة المسؤول",
     "approved": "موافق عليه",
-    "rejected": "مرفوض"
+    "rejected": "مرفوض",
+    "Syrian Pound": "ليرة سورية",
+    "US Dollar": "دولار أمريكي",
+    "Egyptian Pound": "جنيه مصري",
+    "Saudi Riyal": "ريال سعودي",
+    "UAE Dirham": "درهم إماراتي"
 }

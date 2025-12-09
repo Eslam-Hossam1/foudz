@@ -1,15 +1,17 @@
-class CurrencyOption {
-  final String label;
-  final String code;
-  const CurrencyOption({required this.label, required this.code});
+import 'package:localize_and_translate/localize_and_translate.dart';
 
-  String get displayName => "$label ($code)";
+class CurrencyOption {
+  final String labelKey;
+  final String code;
+  const CurrencyOption({required this.labelKey, required this.code});
+
+  String get displayName => "${labelKey.tr()} ($code)";
 }
 
 const List<CurrencyOption> depositCurrencies = [
-  CurrencyOption(label: "ليرة سورية", code: "SYP"),
-  CurrencyOption(label: "دولار أمريكي", code: "USD"),
-  CurrencyOption(label: "جنيه مصري", code: "EGP"),
-  CurrencyOption(label: "ريال سعودي", code: "SAR"),
-  CurrencyOption(label: "درهم إماراتي", code: "AED"),
+  CurrencyOption(labelKey: "Syrian Pound", code: "SYP"),
+  CurrencyOption(labelKey: "US Dollar", code: "USD"),
+  CurrencyOption(labelKey: "Egyptian Pound", code: "EGP"),
+  CurrencyOption(labelKey: "Saudi Riyal", code: "SAR"),
+  CurrencyOption(labelKey: "UAE Dirham", code: "AED"),
 ];

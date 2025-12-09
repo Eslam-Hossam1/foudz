@@ -1038,3 +1038,8 @@ pending
 rejected
 failed
 successful
+Syrian Pound
+US Dollar
+Egyptian Pound
+Saudi Riyal
+UAE Dirham
