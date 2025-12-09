@@ -97,7 +97,7 @@ class _HewallaDepositPageState extends State<HewallaDepositPage> {
         backgroundColor: context.depositScaffoldBackgroundColor,
         appBar: AppBar(
           title: Text(
-            "Hewalla Deposit".tr(),
+            "Deposit via Transfer".tr(),
             style: theme.textTheme.titleLarge?.copyWith(
               color: context.depositAppBarForeground,
             ),

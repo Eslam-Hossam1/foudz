@@ -70,7 +70,7 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
         backgroundColor: context.depositScaffoldBackgroundColor,
         appBar: AppBar(
           title: Text(
-            "USDT Deposit".tr(),
+            "Deposit via USDT".tr(),
             style: theme.textTheme.titleLarge?.copyWith(
               color: context.depositAppBarForeground,
             ),

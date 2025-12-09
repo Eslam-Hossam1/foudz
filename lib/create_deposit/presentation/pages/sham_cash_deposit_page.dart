@@ -97,7 +97,7 @@ class _ShamCashDepositPageState extends State<ShamCashDepositPage> {
         backgroundColor: context.depositScaffoldBackgroundColor,
         appBar: AppBar(
           title: Text(
-            "Sham Cash Deposit".tr(),
+            "Deposit via Sham Cash ".tr(),
             style: theme.textTheme.titleLarge?.copyWith(
               color: context.depositAppBarForeground,
             ),

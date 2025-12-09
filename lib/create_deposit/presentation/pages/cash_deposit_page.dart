@@ -70,7 +70,7 @@ class _CashDepositPageState extends State<CashDepositPage> {
         backgroundColor: context.depositScaffoldBackgroundColor,
         appBar: AppBar(
           title: Text(
-            "Cash Deposit".tr(),
+            "Deposit via Cash".tr(),
             style: theme.textTheme.titleLarge?.copyWith(
               color: context.depositAppBarForeground,
             ),
