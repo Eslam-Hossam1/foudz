@@ -18,7 +18,7 @@ class ApiResponse {
     int code = response.statusCode;
     dynamic body = response.data ?? null; // Would mostly be a Map
     List errors = [];
-    String message = "";
+    dynamic message = "";
 
     switch (code) {
       case 200:

@@ -149,7 +149,7 @@ class OrderTrackingViewModel extends MyBaseViewModel {
     List<LatLng> polylineCoordinates = [];
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      googleApiKey: 'AIzaSyDnDczEoeUwf7bN5b223uvrecPVfzggE',
+      googleApiKey: AppStrings.googleMapApiKey,
       request: PolylineRequest(
         origin: PointLatLng(pickupLatLng!.latitude, pickupLatLng!.longitude),
         destination: PointLatLng(destinationLatLng!.latitude, destinationLatLng!.longitude),

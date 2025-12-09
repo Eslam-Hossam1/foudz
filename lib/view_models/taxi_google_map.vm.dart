@@ -321,7 +321,7 @@ class TaxiGoogleMapViewModel extends CheckoutBaseViewModel {
     );
     //load the ploylines
     PolylineResult polylineResult = await polylinePoints.getRouteBetweenCoordinates(
-      googleApiKey: 'AIzaSyDnDczEoeUwf7bN5b223uvrecPVfzggE',
+      googleApiKey: AppStrings.googleMapApiKey,
       request: PolylineRequest(
         origin: PointLatLng(pickupLocation!.latitude!, pickupLocation!.longitude!),
         destination: PointLatLng(dropoffLocation!.latitude!, dropoffLocation!.longitude!),

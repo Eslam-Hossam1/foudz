@@ -68,9 +68,9 @@ class RegisterViewModel extends MyBaseViewModel {
     // Validate returns true if the form is valid, otherwise false.
     if (formKey.currentState!.validate() && agreed) {
       //
-      if (AppStrings.isFirebaseOtp) {
+      if (false) {
         processFirebaseOTPVerification();
-      } else if (AppStrings.isCustomOtp) {
+      } else if (false) {
         processCustomOTPVerification();
       } else {
         finishAccountRegistration();
@@ -82,37 +82,37 @@ class RegisterViewModel extends MyBaseViewModel {
   processFirebaseOTPVerification() async {
     setBusy(true);
     //firebase authentication
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: accountPhoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) {
-        // firebaseVerificationId = credential.verificationId;
-        // verifyFirebaseOTP(credential.smsCode);
-        finishAccountRegistration();
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        setBusy(false);
-        String msg = "Failed".tr();
-        if (e.code == 'invalid-phone-number') {
-          msg = "Invalid Phone Number".tr();
-        } else {
-          msg = e.message ?? "Failed".tr();
-        }
-        //
-        AlertService.error(
-          title: "Error".tr(),
-          text: msg,
-        );
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        setBusy(false);
-        firebaseVerificationId = verificationId;
-        showVerificationEntry();
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        setBusy(false);
-        print("codeAutoRetrievalTimeout called");
-      },
-    );
+    // await FirebaseAuth.instance.verifyPhoneNumber(
+    //   phoneNumber: accountPhoneNumber,
+    //   verificationCompleted: (PhoneAuthCredential credential) {
+    //     // firebaseVerificationId = credential.verificationId;
+    //     // verifyFirebaseOTP(credential.smsCode);
+    //     finishAccountRegistration();
+    //   },
+    //   verificationFailed: (FirebaseAuthException e) {
+    //     setBusy(false);
+    //     String msg = "Failed".tr();
+    //     if (e.code == 'invalid-phone-number') {
+    //       msg = "Invalid Phone Number".tr();
+    //     } else {
+    //       msg = e.message ?? "Failed".tr();
+    //     }
+    //     //
+    //     AlertService.error(
+    //       title: "Error".tr(),
+    //       text: msg,
+    //     );
+    //   },
+    //   codeSent: (String verificationId, int? resendToken) async {
+    //     setBusy(false);
+    //     firebaseVerificationId = verificationId;
+    //     showVerificationEntry();
+    //   },
+    //   codeAutoRetrievalTimeout: (String verificationId) {
+    //     setBusy(false);
+    //     print("codeAutoRetrievalTimeout called");
+    //   },
+    // );
   }
 
   processCustomOTPVerification() async {
@@ -170,12 +170,12 @@ class RegisterViewModel extends MyBaseViewModel {
     // Sign the user in (or link) with the credential
     try {
       // Create a PhoneAuthCredential with the code
-      PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
-        verificationId: firebaseVerificationId!,
-        smsCode: smsCode,
-      );
+      // PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+      //   verificationId: firebaseVerificationId!,
+      //   smsCode: smsCode,
+      // );
 
-      await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
+      // await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
       await finishAccountRegistration();
     } catch (error) {
       viewContext.showToast(msg: "$error", bgColor: Colors.red);

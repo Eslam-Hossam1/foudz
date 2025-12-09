@@ -29,7 +29,10 @@ class UsdtDepositRequest extends DepositRequest {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"method": method, "net_amount": netAmount, "tx_hash": txHash};
+    return {"method": method,
+     "net_amount": netAmount,
+      "tx_hash": txHash,
+      };
   }
 }
 
