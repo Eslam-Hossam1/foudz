@@ -134,9 +134,6 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
                             if (value == null || value.trim().isEmpty) {
                               return "Please enter the transaction hash".tr();
                             }
-                            if (value.trim().length < 10) {
-                              return "Hash looks too short".tr();
-                            }
                             return null;
                           },
                         ),
