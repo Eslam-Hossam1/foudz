@@ -86,7 +86,7 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                    state.response.message ?? "Deposit successful".tr(),
+                    "Deposit request submitted and pending admin approval".tr(),
                   ),
                   backgroundColor: Colors.green,
                 ),

@@ -1002,3 +1002,39 @@ reviews
 View All
 Book Now
 View Now
+Deposit via Cash
+Deposit via USDT
+Deposit via Transfer
+Deposit via Sham Cash
+Deposit History
+Cash
+USDT
+Transfer
+Sham Cash
+Pay in cash at our office/agent
+Send USDT to the address, then enter the net amount and transaction hash
+Make a bank transfer to the provided account and upload the receipt
+Send via Sham Cash to the provided number and upload a screenshot
+Account Holder
+Currency
+Amount
+Transaction hash
+Receipt Image
+Select currency
+Enter amount
+Enter transaction hash
+Account Holder Name
+Please select a currency
+Please enter an amount
+Enter a valid amount
+Please enter the transaction hash
+Hash looks too short
+Please upload the payment receipt
+Deposit request submitted and pending admin approval
+Deposit successful
+No deposits found
+approved
+pending
+rejected
+failed
+successful

@@ -1,4 +1,3 @@
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fuodz/create_deposit/data/datasources/deposit.datasource.dart';
@@ -176,7 +175,7 @@ class _DepositListTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: Text(
-                  deposit.status.capitalize(),
+                  deposit.status.tr(),
                   style: theme.textTheme.labelSmall?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: _getStatusColor(deposit.status),
