@@ -172,8 +172,8 @@ class _CashDepositPageState extends State<CashDepositPage> {
                         const SizedBox(height: 32),
                         BlocBuilder<CashDepositCubit, CashDepositState>(
                           builder: (context, state) {
-                            return SizedBox(
-                              width: double.infinity,
+                            return Align(
+                              alignment: Alignment.center,
                               child: CustomButton(
                                 title: "Submit".tr(),
                                 loading: state is CashDepositLoading,

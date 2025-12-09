@@ -163,8 +163,8 @@ class _UsdtDepositPageState extends State<UsdtDepositPage> {
                         const SizedBox(height: 32),
                         BlocBuilder<UsdtDepositCubit, UsdtDepositState>(
                           builder: (context, state) {
-                            return SizedBox(
-                              width: double.infinity,
+                            return Align(
+                              alignment: Alignment.center,
                               child: CustomButton(
                                 title: "Submit".tr(),
                                 loading: state is UsdtDepositLoading,

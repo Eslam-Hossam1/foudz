@@ -213,8 +213,8 @@ class _ShamCashDepositPageState extends State<ShamCashDepositPage> {
                         const SizedBox(height: 32),
                         BlocBuilder<ShamCashDepositCubit, ShamCashDepositState>(
                           builder: (context, state) {
-                            return SizedBox(
-                              width: double.infinity,
+                            return Align(
+                              alignment: Alignment.center,
                               child: CustomButton(
                                 title: "Submit".tr(),
                                 loading: state is ShamCashDepositLoading,
