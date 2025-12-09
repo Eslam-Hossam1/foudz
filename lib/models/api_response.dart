@@ -18,7 +18,7 @@ class ApiResponse {
     int code = response.statusCode;
     dynamic body = response.data ?? null; // Would mostly be a Map
     List errors = [];
-    dynamic message = "";
+    String message = "";
 
     switch (code) {
       case 200:
@@ -32,7 +32,6 @@ class ApiResponse {
         break;
       default:
         message =
-            body["message"] ??
             "Whoops! Something went wrong, please contact support.";
         errors.add(message);
         break;

@@ -1,4 +1,3 @@
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:fuodz/constants/app_strings.dart';
 import 'package:fuodz/models/delivery_address.dart';
@@ -36,8 +35,34 @@ class BaseDeliveryAddressesViewModel extends MyBaseViewModel {
             if (prediction is Prediction) {
               addressTEC.text = prediction.description ?? "";
               deliveryAddress?.address = prediction.description;
-              deliveryAddress?.latitude = prediction.lat?.toDoubleOrNull();
-              deliveryAddress?.longitude = prediction.lng?.toDoubleOrNull();
+
+              // Safely convert lat/lng to double
+              try {
+                if (prediction.lat != null) {
+                  if (prediction.lat is String) {
+                    deliveryAddress?.latitude = double.tryParse(
+                      prediction.lat as String,
+                    );
+                  } else if (prediction.lat is num) {
+                    deliveryAddress?.latitude =
+                        (prediction.lat as num).toDouble();
+                  }
+                }
+
+                if (prediction.lng != null) {
+                  if (prediction.lng is String) {
+                    deliveryAddress?.longitude = double.tryParse(
+                      prediction.lng as String,
+                    );
+                  } else if (prediction.lng is num) {
+                    deliveryAddress?.longitude =
+                        (prediction.lng as num).toDouble();
+                  }
+                }
+              } catch (e) {
+                print("Error converting coordinates: $e");
+              }
+
               //
               setBusy(true);
               await getLocationCityName(deliveryAddress!);
@@ -71,12 +96,13 @@ class BaseDeliveryAddressesViewModel extends MyBaseViewModel {
     //
     if (coordinates.isSuccessful()) {
       // print('Coordinates ${coordinates.toJson()}');
-      addressTEC.text = coordinates.data()?.toJson()["nearestPlace"];
+      addressTEC.text = coordinates.data()?.toJson()["nearestPlace"] ?? "";
       deliveryAddress?.address = coordinates.data()?.toJson()["nearestPlace"];
-      deliveryAddress?.latitude =
-          coordinates.data()?.toJson()["coordinates"]["lat"];
-      deliveryAddress?.longitude =
-          coordinates.data()?.toJson()["coordinates"]["lng"];
+      final coordData = coordinates.data()?.toJson()["coordinates"];
+      if (coordData != null && coordData is Map) {
+        deliveryAddress?.latitude = coordData["lat"];
+        deliveryAddress?.longitude = coordData["lng"];
+      }
       // From coordinates
       setBusy(true);
       final locationCoordinates = new Coordinates(
