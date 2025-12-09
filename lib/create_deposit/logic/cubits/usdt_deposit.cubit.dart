@@ -14,16 +14,24 @@ class UsdtDepositCubit extends Cubit<UsdtDepositState> {
     required double netAmount,
     required String txHash,
   }) async {
+    if (isClosed) return; // Check before emitting
     emit(UsdtDepositLoading());
+
     try {
       final request = UsdtDepositRequest(netAmount: netAmount, txHash: txHash);
       final response = await _repository.createDeposit(request);
+
+      // Check before each emit
+      if (isClosed) return;
+
       if (response.allGood) {
         emit(UsdtDepositSuccess(response));
       } else {
         emit(UsdtDepositFailure(response.message ?? "An error occurred"));
       }
     } catch (e) {
+      // Check before emitting error state
+      if (isClosed) return;
       emit(UsdtDepositFailure(e.toString()));
     }
   }

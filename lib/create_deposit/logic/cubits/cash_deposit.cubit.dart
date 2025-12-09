@@ -14,16 +14,24 @@ class CashDepositCubit extends Cubit<CashDepositState> {
     required String currency,
     required double amount,
   }) async {
+    if (isClosed) return; // Check before emitting
     emit(CashDepositLoading());
+
     try {
       final request = CashDepositRequest(currency: currency, amount: amount);
       final response = await _repository.createDeposit(request);
+
+      // Check before each emit
+      if (isClosed) return;
+
       if (response.allGood) {
         emit(CashDepositSuccess(response));
       } else {
         emit(CashDepositFailure(response.message ?? "An error occurred"));
       }
     } catch (e) {
+      // Check before emitting error state
+      if (isClosed) return;
       emit(CashDepositFailure(e.toString()));
     }
   }

@@ -10,15 +10,23 @@ class DepositListCubit extends Cubit<DepositListState> {
   DepositListCubit(this._repository) : super(DepositListInitial());
 
   Future<void> getDeposits() async {
+    if (isClosed) return; // Check before emitting
     emit(DepositListLoading());
+
     try {
       final deposits = await _repository.getDeposits();
+
+      // Check before each emit
+      if (isClosed) return;
+
       if (deposits.isEmpty) {
         emit(DepositListEmpty());
       } else {
         emit(DepositListSuccess(deposits));
       }
     } catch (e) {
+      // Check before emitting error state
+      if (isClosed) return;
       emit(DepositListFailure(e.toString()));
     }
   }

@@ -15,7 +15,9 @@ class HewallaDepositCubit extends Cubit<HewallaDepositState> {
     String? photoPath,
     required String currency,
   }) async {
+    if (isClosed) return; // Check before emitting
     emit(HewallaDepositLoading());
+    
     try {
       final request = HewallaDepositRequest(
         amount: amount,
@@ -23,12 +25,18 @@ class HewallaDepositCubit extends Cubit<HewallaDepositState> {
         currency: currency,
       );
       final response = await _repository.createDeposit(request);
+      
+      // Check before each emit
+      if (isClosed) return;
+      
       if (response.allGood) {
         emit(HewallaDepositSuccess(response));
       } else {
         emit(HewallaDepositFailure(response.message ?? "An error occurred"));
       }
     } catch (e) {
+      // Check before emitting error state
+      if (isClosed) return;
       emit(HewallaDepositFailure(e.toString()));
     }
   }
