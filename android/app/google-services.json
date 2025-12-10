@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "531127866597-4pvor7t68e23fcl8dsngp06e16nodr58.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khal.delivery",
+            "certificate_hash": "b3ad1b339aa23769aa638879dc779015f6c92d8b"
+          }
+        },
+        {
           "client_id": "531127866597-ilc2fvhupbivvicqsff2js8i998ve3jr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -21,6 +29,86 @@
             "certificate_hash": "4ae7dcf0fa619ae609167986ec250af03aede15b"
           }
         },
+        {
+          "client_id": "531127866597-k4spqdabpdr3g74r7i46v3f29p590o81.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.khal.delivery",
+            "certificate_hash": "6b93e3fc7be2d73cb84a2f6f0b00035adc473a3e"
+          }
+        },
+        {
+          "client_id": "531127866597-ucpkubkcjfv3ck7605ct24j33d514ogf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7I2eBQpfkeopvwZwMvxa0xplTHrZNx_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531127866597-ucpkubkcjfv3ck7605ct24j33d514ogf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "531127866597-41fqifbu8pe0mhlrbe6c9i68pop1pv4v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.khal.delivery"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531127866597:android:205a727fc2bfa3e8a2f00c",
+        "android_client_info": {
+          "package_name": "com.khal.deliverydeliveryboy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531127866597-ucpkubkcjfv3ck7605ct24j33d514ogf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7I2eBQpfkeopvwZwMvxa0xplTHrZNx_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531127866597-ucpkubkcjfv3ck7605ct24j33d514ogf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "531127866597-41fqifbu8pe0mhlrbe6c9i68pop1pv4v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.khal.delivery"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531127866597:android:4e7bd4fc28674f4ea2f00c",
+        "android_client_info": {
+          "package_name": "com.khal.deliveryvendor"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "531127866597-ucpkubkcjfv3ck7605ct24j33d514ogf.apps.googleusercontent.com",
           "client_type": 3
@@ -63,6 +151,14 @@
           "android_info": {
             "package_name": "online.edentech.fuodz",
             "certificate_hash": "15160a6d6e6aecce0a109d18905001b1fa2183c9"
+          }
+        },
+        {
+          "client_id": "531127866597-g9abvak202rm9vao3lde7v3tldlegjn3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "online.edentech.fuodz",
+            "certificate_hash": "6b93e3fc7be2d73cb84a2f6f0b00035adc473a3e"
           }
         },
         {

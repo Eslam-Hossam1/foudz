@@ -7,6 +7,7 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
     // Google Services plugin
     id("com.google.gms.google-services")
+    
 }
 
 // Load keystore properties

@@ -7,44 +7,58 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'dart:convert';
 import 'dart:math';
-
+import 'dart:developer' as developer;
 import 'package:crypto/crypto.dart';
 
 class SocialMediaLoginService {
-  //
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+  static bool isInitialize = false;
+  static Future<void> initSignIn() async {
+    if (!isInitialize) {
+      await _googleSignIn.initialize(
+        serverClientId:
+            '531127866597-ucpkubkcjfv3ck7605ct24j33d514ogf.apps.googleusercontent.com',
+      );
+    }
+    isInitialize = true;
+  }
 
-  //Google login
+  // Sign in with Google
+
   void googleLogin(LoginViewModel model) async {
     //
     model.setBusy(true);
     try {
       //
-      GoogleSignIn googleSignIn = GoogleSignIn(
-        scopes: ['email', 'profile'],
-      );
+
       try {
-        // Trigger the authentication flow
-        if (await googleSignIn.isSignedIn()) {
-          await googleSignIn.disconnect();
+        await initSignIn();
+        final GoogleSignInAccount googleUser =
+            await _googleSignIn.authenticate();
+        final idToken = googleUser.authentication.idToken;
+        final authorizationClient = googleUser.authorizationClient;
+        GoogleSignInClientAuthorization? authorization =
+            await authorizationClient.authorizationForScopes([
+              'email',
+              'profile',
+            ]);
+        final accessToken = authorization?.accessToken;
+        if (accessToken == null) {
+          final authorization2 = await authorizationClient
+              .authorizationForScopes(['email', 'profile']);
+          if (authorization2?.accessToken == null) {
+            //  throw FirebaseAuthException(code: "error", message: "error");
+            print("google sign in failed");
+          }
+          authorization = authorization2;
         }
-        final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-        //
-        if (googleUser == null) {
-          throw "Google login failed".tr();
-        }
-
-        // Obtain the auth details from the request
-        final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
-
-        // Create a new credential
         final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
+          accessToken: accessToken,
+          idToken: idToken,
         );
-
-        // Once signed in, return the UserCredential
-        await FirebaseAuth.instance.signInWithCredential(credential);
+        final UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithCredential(credential);
 
         //Login to with firebase token
         //
@@ -52,7 +66,7 @@ class SocialMediaLoginService {
         try {
           final apiResponse = await model.authRequest.socialLogin(
             googleUser.email,
-            googleAuth.idToken,
+            idToken,
             "google",
           );
           //
@@ -69,13 +83,14 @@ class SocialMediaLoginService {
         }
         //
       } on FirebaseAuthException catch (error) {
-        model.toastError(
-          "${error.message}",
-        );
+        developer.log("${error.message}");
+        model.toastError("${error.message}");
       } catch (error) {
+        developer.log("$error");
         model.toastError("$error");
       }
     } catch (error) {
+      developer.log("$error");
       model.toastError("$error");
     }
     model.setBusy(false);
@@ -99,15 +114,11 @@ class SocialMediaLoginService {
         try {
           // Create a credential from the access token
           final OAuthCredential facebookAuthCredential =
-              FacebookAuthProvider.credential(
-            accessToken.tokenString,
-          );
+              FacebookAuthProvider.credential(accessToken.tokenString);
 
           // Once signed in, return the UserCredential
-          UserCredential userAccount =
-              await FirebaseAuth.instance.signInWithCredential(
-            facebookAuthCredential,
-          );
+          UserCredential userAccount = await FirebaseAuth.instance
+              .signInWithCredential(facebookAuthCredential);
 
           //
           final apiResponse = await model.authRequest.socialLogin(
@@ -127,9 +138,7 @@ class SocialMediaLoginService {
           }
         } on FirebaseAuthException catch (error) {
           AlertService.stopLoading();
-          model.toastError(
-            "${error.message}",
-          );
+          model.toastError("${error.message}");
         } catch (error) {
           AlertService.stopLoading();
           model.toastError("$error");
@@ -172,10 +181,8 @@ class SocialMediaLoginService {
       );
 
       //
-      UserCredential userAccount =
-          await FirebaseAuth.instance.signInWithCredential(
-        oauthCredential,
-      );
+      UserCredential userAccount = await FirebaseAuth.instance
+          .signInWithCredential(oauthCredential);
 
       // Sign the user in (or link) with the credential
       try {
@@ -205,9 +212,7 @@ class SocialMediaLoginService {
     } on FirebaseAuthException catch (error) {
       print("Apple login: $error");
       AlertService.stopLoading();
-      model.toastError(
-        "${error.message}",
-      );
+      model.toastError("${error.message}");
     } catch (error) {
       AlertService.stopLoading();
       model.toastError("$error");
@@ -218,8 +223,10 @@ class SocialMediaLoginService {
     final charset =
         '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
     final random = Random.secure();
-    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
-        .join();
+    return List.generate(
+      length,
+      (_) => charset[random.nextInt(charset.length)],
+    ).join();
   }
 
   /// Returns the sha256 hash of [input] in hex notation.
