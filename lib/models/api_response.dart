@@ -31,8 +31,13 @@ class ApiResponse {
 
         break;
       default:
-        message =
-            "Whoops! Something went wrong, please contact support.";
+        try {
+          message =
+              body["message"] ??
+              "Whoops! Something went wrong, please contact support.";
+        } catch (error) {
+          message = "Whoops! Something went wrong, please contact support.";
+        }
         errors.add(message);
         break;
     }
