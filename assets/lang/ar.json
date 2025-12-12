@@ -760,6 +760,6 @@
     "You have selected": "لقد اخترت",
     "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".": "يرجى إرسال المبلغ المطلوب إلى عنوان المحفظة أدناه، ثم انقر على \"لقد قمت بالتحويل\".",
     "Copy": "نسخ",
-    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "تأكد من التحقق مرة أخرى من العنوان والشبكة قبل الإرسال. لا يمكن عكس المعاملات.",
+    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "تأكد من التحقق مرة أخرى من العنوان قبل الإرسال. لا يمكن عكس المعاملات.",
     "I Have Transferred": "لقد قمت بالتحويل"
 }

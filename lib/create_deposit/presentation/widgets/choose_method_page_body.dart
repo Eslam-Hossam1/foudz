@@ -48,7 +48,7 @@ class ChooseMethodPageBody extends StatelessWidget {
           MaterialPageRoute(
             builder:
                 (_) => DepositInstructionsPage(
-                  methodName: method.label.tr(),
+                  methodName: "USDT - TRON (TRC20)",
                   walletAddress: 'TUUDPUD7pNGjGmVi7hPAWJsJm5AfQCrZHb',
                   onConfirm: () {
                     Navigator.of(context).pushReplacement(

@@ -540,6 +540,6 @@
     "You have selected": "您已選擇",
     "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".": "請將所需金額發送到下面的錢包地址，然後點擊「我已轉帳」。",
     "Copy": "複製",
-    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "在發送之前，請務必仔細檢查地址和網絡。交易無法撤銷。",
+    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "在發送之前，請務必仔細檢查地址。交易無法撤銷。",
     "I Have Transferred": "我已轉帳"
 }

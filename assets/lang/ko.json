@@ -760,6 +760,6 @@
     "You have selected": "선택하셨습니다",
     "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".": "아래 지갑 주소로 원하는 금액을 보낸 후 \"송금했습니다\"를 클릭하세요.",
     "Copy": "복사",
-    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "보내기 전에 주소와 네트워크를 다시 확인하세요. 거래는 취소할 수 없습니다।",
+    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "보내기 전에 주소를 다시 확인하세요. 거래는 취소할 수 없습니다.",
     "I Have Transferred": "송금했습니다"
 }

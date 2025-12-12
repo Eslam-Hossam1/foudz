@@ -760,6 +760,6 @@
     "You have selected": "Вы выбрали",
     "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".": "Пожалуйста, отправьте желаемую сумму на адрес кошелька ниже, затем нажмите \"Я перевел\".",
     "Copy": "Копировать",
-    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Обязательно дважды проверьте адрес и сеть перед отправкой. Транзакции не могут быть отменены.",
+    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Обязательно дважды проверьте адрес перед отправкой. Транзакции не могут быть отменены.",
     "I Have Transferred": "Я перевел"
 }

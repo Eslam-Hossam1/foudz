@@ -136,30 +136,50 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
       }
     }
   }
+// ... (inside _CustomGoogleMapPickerState)
 
-  Future<void> _onSuggestionSelected(PlaceSuggestion suggestion) async {
-    // Close keyboard
-    searchFocusNode.unfocus();
+Future<void> _onSuggestionSelected(PlaceSuggestion suggestion) async {
+  // 1. Temporarily remove the listener to prevent _onSearchChanged from running
+  // when we programmatically set the text.
+  searchController.removeListener(_onSearchChanged);
 
-    setState(() {
-      isSearching = false;
-      searchSuggestions = [];
-      searchController.text = suggestion.description;
-      isLoadingAddress = false;
-    });
+  // Close keyboard and clear suggestions immediately
+  searchFocusNode.unfocus();
 
-    try {
-      final placeDetails = await GeocodingApiService.getPlaceDetails(
-        suggestion.placeId,
+  setState(() {
+    // 2. Clear suggestions so the list disappears
+    searchSuggestions = [];
+    isLoadingAddress = true; // Start loading address, not search
+  });
+
+  // 3. Set the text field value programmatically
+  searchController.text = suggestion.description;
+  // Reset selection to the end of the text
+  searchController.selection = TextSelection.fromPosition(
+    TextPosition(offset: searchController.text.length),
+  );
+
+  // 4. Re-add the listener now that the text is set
+  searchController.addListener(_onSearchChanged);
+
+  try {
+    final placeDetails = await GeocodingApiService.getPlaceDetails(
+      suggestion.placeId,
+    );
+
+    if (placeDetails != null && googleMapController != null) {
+      final newPosition = LatLng(placeDetails.lat, placeDetails.lng);
+
+      await googleMapController!.animateCamera(
+        CameraUpdate.newLatLngZoom(newPosition, 16),
       );
 
-      if (placeDetails != null && googleMapController != null) {
-        final newPosition = LatLng(placeDetails.lat, placeDetails.lng);
-
-        await googleMapController!.animateCamera(
-          CameraUpdate.newLatLngZoom(newPosition, 16),
-        );
-
+      // The map's onCameraIdle will trigger _getAddress which will handle
+      // setting selectedLatLng, selectedAddress, and isLoadingAddress = false.
+      // However, since we are doing an explicit place search (which is generally
+      // more accurate), let's set the address here to ensure immediate feedback.
+      if (mounted) {
+        // Explicitly set the location data
         selectedLatLng = newPosition;
         selectedAddress = suggestion.description;
 
@@ -167,14 +187,16 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
           isLoadingAddress = false;
         });
       }
-    } catch (e) {
+    }
+  } catch (e) {
+    if (mounted) {
       setState(() {
         isLoadingAddress = false;
         selectedAddress = "Unable to fetch location details".tr();
       });
     }
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(

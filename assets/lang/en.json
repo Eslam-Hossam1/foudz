@@ -761,6 +761,6 @@
     "You have selected": "You have selected",
     "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".": "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".",
     "Copy": "Copy",
-    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Make sure to double-check the address and network before sending. Transactions cannot be reversed.",
+    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Make sure to double-check the address before sending. Transactions cannot be reversed.",
     "I Have Transferred": "I Have Transferred"
 }
