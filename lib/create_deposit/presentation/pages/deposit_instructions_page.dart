@@ -8,12 +8,14 @@ class DepositInstructionsPage extends StatelessWidget {
   final String methodName;
   final String walletAddress;
   final VoidCallback onConfirm;
+  final bool showNetworkWarning;
 
   const DepositInstructionsPage({
     super.key,
     required this.methodName,
     required this.walletAddress,
     required this.onConfirm,
+    this.showNetworkWarning = false, // Default to false
   });
 
   void _copyToClipboard(BuildContext context) {
@@ -160,8 +162,11 @@ class DepositInstructionsPage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                "Make sure to double-check the address and network before sending. Transactions cannot be reversed."
-                    .tr(),
+                showNetworkWarning
+                    ? "Make sure to double-check the address and network before sending. Transactions cannot be reversed."
+                        .tr()
+                    : "Make sure to double-check the address before sending. Transactions cannot be reversed."
+                        .tr(),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontSize: 15,
                   color: context.depositSecondaryTextColor,

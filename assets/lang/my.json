@@ -760,6 +760,7 @@
     "You have selected": "သင်ရွေးချယ်ထားသည်",
     "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".": "အောက်ပါ ပိုက်ဆံအိတ်လိပ်စာသို့ လိုချင်သောပမာဏကို ပေးပို့ပြီး \"ငါလွှဲပြောင်းပြီးပြီ\" ကိုနှိပ်ပါ။",
     "Copy": "ကူးယူပါ",
-    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "ပေးပို့ခြင်းမပြုမီ လိပ်စာကို နှစ်ကြိမ်စစ်ဆေးပါ။ ငွေလွှဲမှုများကို ပြန်လှည့်၍မရပါ။",
+    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "ပေးပို့ခြင်းမပြုမီ လိပ်စာနှင့် ကွန်ရက်ကို နှစ်ကြိမ်စစ်ဆေးပါ။ ငွေလွှဲမှုများကို ပြန်လှည့်၍မရပါ။",
+    "Make sure to double-check the address before sending. Transactions cannot be reversed.": "ပေးပို့ခြင်းမပြုမီ လိပ်စာကို နှစ်ကြိမ်စစ်ဆေးပါ။ ငွေလွှဲမှုများကို ပြန်လှည့်၍မရပါ။",
     "I Have Transferred": "ငါလွှဲပြောင်းပြီးပြီ"
 }

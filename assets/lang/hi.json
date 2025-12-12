@@ -760,6 +760,7 @@
     "You have selected": "आपने चुना है",
     "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".": "कृपया नीचे दिए गए वॉलेट पते पर वांछित राशि भेजें, फिर \"मैंने स्थानांतरित कर दिया है\" पर क्लिक करें।",
     "Copy": "कॉपी करें",
-    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "भेजने से पहले पते की दोबारा जांच करना सुनिश्चित करें। लेनदेन को उलटा नहीं किया जा सकता।",
+    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "भेजने से पहले पते और नेटवर्क की दोबारा जांच करना सुनिश्चित करें। लेनदेन को उलटा नहीं किया जा सकता।",
+    "Make sure to double-check the address before sending. Transactions cannot be reversed.": "भेजने से पहले पते की दोबारा जांच करना सुनिश्चित करें। लेनदेन को उलटा नहीं किया जा सकता।",
     "I Have Transferred": "मैंने स्थानांतरित कर दिया है"
 }

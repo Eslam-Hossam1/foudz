@@ -760,6 +760,7 @@
     "You have selected": "Sie haben ausgewählt",
     "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".": "Bitte senden Sie den gewünschten Betrag an die unten angegebene Wallet-Adresse und klicken Sie dann auf \"Ich habe überwiesen\".",
     "Copy": "Kopieren",
-    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Stellen Sie sicher, dass Sie die Adresse vor dem Senden doppelt überprüfen. Transaktionen können nicht rückgängig gemacht werden.",
+    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Stellen Sie sicher, dass Sie die Adresse und das Netzwerk vor dem Senden doppelt überprüfen. Transaktionen können nicht rückgängig gemacht werden.",
+    "Make sure to double-check the address before sending. Transactions cannot be reversed.": "Stellen Sie sicher, dass Sie die Adresse vor dem Senden doppelt überprüfen. Transaktionen können nicht rückgängig gemacht werden.",
     "I Have Transferred": "Ich habe überwiesen"
 }

@@ -760,6 +760,7 @@
     "You have selected": "Seçtiniz",
     "Please send the desired amount to the wallet address below, then click \"I Have Transferred\".": "Lütfen istediğiniz tutarı aşağıdaki cüzdan adresine gönderin, ardından \"Transfer Yaptım\" düğmesine tıklayın.",
     "Copy": "Kopyala",
-    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Göndermeden önce adresi iki kez kontrol ettiğinizden emin olun. İşlemler geri alınamaz.",
+    "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Göndermeden önce adresi ve ağı iki kez kontrol ettiğinizden emin olun. İşlemler geri alınamaz.",
+    "Make sure to double-check the address before sending. Transactions cannot be reversed.": "Göndermeden önce adresi iki kez kontrol ettiğinizden emin olun. İşlemler geri alınamaz.",
     "I Have Transferred": "Transfer Yaptım"
 }
