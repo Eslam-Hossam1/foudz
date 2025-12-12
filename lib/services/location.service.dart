@@ -9,7 +9,7 @@ import 'package:fuodz/services/app.service.dart';
 import 'package:fuodz/services/local_storage.service.dart';
 import 'package:fuodz/widgets/bottomsheets/location_permission.bottomsheet.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' hide LocationAccuracy;
 // import 'package:geocoder/geocoder.dart';
 import 'package:rxdart/rxdart.dart';
 import 'geocoder.service.dart';
@@ -107,7 +107,8 @@ class LocationService {
     _locationData = await location.getLocation();
     geocodeCurrentLocation(oneTime);
   }
-   Future<LocationData> getLocationData() async {
+
+  Future<LocationData> getLocationData() async {
     LocationData locationData = await location.getLocation();
     return locationData;
   }
@@ -236,5 +237,110 @@ class LocationService {
     final address = await getLocallySaveAddress();
     return address?.longitude ??
         LocationService.currenctAddress?.coordinates?.longitude;
+  }
+
+  //DEFAULT LOCATION MANAGEMENT
+  /// Save default location to SharedPreferences
+  static Future<void> saveDefaultLocation(double lat, double lng) async {
+    try {
+      final pref = await LocalStorageService.getPrefs();
+      await pref.setDouble("DEFAULT_LAT", lat);
+      await pref.setDouble("DEFAULT_LNG", lng);
+      print("✅ Default location saved to storage: Lat=$lat, Lng=$lng");
+    } catch (error) {
+      print("❌ Error saving default location => $error");
+    }
+  }
+
+  /// Get default location from SharedPreferences
+  static Future<Map<String, double>?> getDefaultLocation() async {
+    try {
+      final pref = await LocalStorageService.getPrefs();
+      final lat = pref.getDouble("DEFAULT_LAT");
+      final lng = pref.getDouble("DEFAULT_LNG");
+      if (lat != null && lng != null) {
+        print("📍 Retrieved default location from storage: Lat=$lat, Lng=$lng");
+        return {"lat": lat, "lng": lng};
+      } else {
+        print("📍 No default location found in storage");
+      }
+    } catch (error) {
+      print("❌ Error getting default location => $error");
+    }
+    return null;
+  }
+
+  /// Fetch current location and save as default
+  static Future<Map<String, double>?> fetchAndSaveDefaultLocation() async {
+    try {
+      print("📍 Checking location services...");
+
+      // Check if location services are enabled
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        print("❌ Location services are disabled");
+        return null;
+      }
+      print("✅ Location services are enabled");
+
+      // Check location permission
+      print("📍 Checking location permission...");
+      LocationPermission permission = await Geolocator.checkPermission();
+      print("📍 Current permission status: $permission");
+
+      // Request permission if denied
+      if (permission == LocationPermission.denied) {
+        print("📍 Permission denied, requesting permission...");
+        permission = await Geolocator.requestPermission();
+        print("📍 Permission request result: $permission");
+
+        if (permission == LocationPermission.denied) {
+          print("❌ Location permission denied by user");
+          return null;
+        }
+      }
+
+      // Check if permission is permanently denied
+      if (permission == LocationPermission.deniedForever) {
+        print("❌ Location permission permanently denied");
+        return null;
+      }
+
+      print("✅ Location permission granted");
+
+      print("📍 Fetching location...");
+
+      // Try to get last known position first (faster)
+      Position? currentLocation = await Geolocator.getLastKnownPosition();
+
+      if (currentLocation != null) {
+        print(
+          "✅ Got last known position: ${currentLocation.latitude}, ${currentLocation.longitude}",
+        );
+      } else {
+        print("📍 No last known position, getting current position...");
+        // If no last known position, get current position
+        currentLocation = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high,
+        );
+        print(
+          "✅ Got current position: ${currentLocation.latitude}, ${currentLocation.longitude}",
+        );
+      }
+
+      print("📍 Saving default location...");
+      await saveDefaultLocation(
+        currentLocation.latitude,
+        currentLocation.longitude,
+      );
+
+      return {
+        "lat": currentLocation.latitude,
+        "lng": currentLocation.longitude,
+      };
+    } catch (error) {
+      print("❌ Error fetching and saving default location => $error");
+      return null;
+    }
   }
 }

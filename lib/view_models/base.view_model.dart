@@ -374,8 +374,20 @@ class MyBaseViewModel extends BaseViewModel
   // NEW LOCATION PICKER
   Future<dynamic> newPlacePicker() async {
     //
-    LatLng initialPosition = LatLng(0.00, 0.00);
-    double initialZoom = 0;
+    // Try to get default location first
+    LatLng? initialPosition;
+    final defaultLocation = await LocationService.getDefaultLocation();
+
+    if (defaultLocation != null) {
+      initialPosition = LatLng(
+        defaultLocation['lat']!,
+        defaultLocation['lng']!,
+      );
+    }
+
+    double initialZoom = 14;
+
+    // Override with current location if available
     if (LocationService.currenctAddress != null) {
       initialPosition = LatLng(
         LocationService.currenctAddress?.coordinates?.latitude ?? 0.00,
@@ -383,6 +395,10 @@ class MyBaseViewModel extends BaseViewModel
       );
       initialZoom = 15;
     }
+
+    // Fallback to (0, 0) if no location available
+    initialPosition ??= LatLng(0.00, 0.00);
+
     String? mapRegion;
     try {
       mapRegion = await Utils.getCurrentCountryCode();

@@ -31,6 +31,10 @@ class SplashViewModel extends MyBaseViewModel {
   initialise() async {
     super.initialise();
     await loadAppSettings();
+
+    // Note: We don't fetch default location here to avoid premature permission requests
+    // Location will be fetched when user first opens a map (better UX)
+
     if (AuthServices.authenticated()) {
       await AuthServices.getCurrentUser(force: true);
     }

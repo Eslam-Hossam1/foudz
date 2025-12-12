@@ -38,15 +38,51 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
     super.initState();
     selectedAddress = "Move the map to select a location...".tr();
 
-    // Initialize with current location if available
+    // Initialize with provided position (default location)
     if (widget.initialPosition != null) {
       selectedLatLng = widget.initialPosition;
-    } else {
-      _goToUserLocation();
     }
+
+    // Fetch current location in background and animate to it
+    _fetchCurrentLocationInBackground();
 
     // Listen to search input
     searchController.addListener(_onSearchChanged);
+  }
+
+  /// Fetch current location in background and animate to it
+  Future<void> _fetchCurrentLocationInBackground() async {
+    try {
+      // Wait a bit for map to be ready
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      final locationData = await LocationService().getLocationData();
+
+      if (googleMapController != null && mounted) {
+        final currentPosition = LatLng(
+          locationData.latitude!,
+          locationData.longitude!,
+        );
+
+        // Save as new default location
+        await LocationService.saveDefaultLocation(
+          locationData.latitude!,
+          locationData.longitude!,
+        );
+
+        // Animate to current location
+        await googleMapController!.animateCamera(
+          CameraUpdate.newLatLngZoom(currentPosition, 16),
+        );
+
+        print(
+          "Animated to current location: ${locationData.latitude}, ${locationData.longitude}",
+        );
+      }
+    } catch (e) {
+      print("Error fetching current location in background => $e");
+      // Don't show error to user, just silently fail
+    }
   }
 
   @override
@@ -100,46 +136,44 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
       }
     }
   }
-  
 
   Future<void> _onSuggestionSelected(PlaceSuggestion suggestion) async {
-  // Close keyboard
-  searchFocusNode.unfocus();
+    // Close keyboard
+    searchFocusNode.unfocus();
 
-  setState(() {
-    isSearching = false;
-    searchSuggestions = [];
-    searchController.text = suggestion.description;
-    isLoadingAddress = false;
-  });
+    setState(() {
+      isSearching = false;
+      searchSuggestions = [];
+      searchController.text = suggestion.description;
+      isLoadingAddress = false;
+    });
 
-  try {
-    final placeDetails = await GeocodingApiService.getPlaceDetails(
-      suggestion.placeId,
-    );
-
-    if (placeDetails != null && googleMapController != null) {
-      final newPosition = LatLng(placeDetails.lat, placeDetails.lng);
-
-      await googleMapController!.animateCamera(
-        CameraUpdate.newLatLngZoom(newPosition, 16),
+    try {
+      final placeDetails = await GeocodingApiService.getPlaceDetails(
+        suggestion.placeId,
       );
 
-      selectedLatLng = newPosition;
-      selectedAddress = suggestion.description;
+      if (placeDetails != null && googleMapController != null) {
+        final newPosition = LatLng(placeDetails.lat, placeDetails.lng);
 
+        await googleMapController!.animateCamera(
+          CameraUpdate.newLatLngZoom(newPosition, 16),
+        );
+
+        selectedLatLng = newPosition;
+        selectedAddress = suggestion.description;
+
+        setState(() {
+          isLoadingAddress = false;
+        });
+      }
+    } catch (e) {
       setState(() {
         isLoadingAddress = false;
+        selectedAddress = "Unable to fetch location details".tr();
       });
     }
-  } catch (e) {
-    setState(() {
-      isLoadingAddress = false;
-      selectedAddress = "Unable to fetch location details".tr();
-    });
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -148,15 +182,14 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
         children: [
           // Google Map
           GoogleMap(
+            mapType: MapType.hybrid,
             initialCameraPosition: CameraPosition(
               target: widget.initialPosition ?? const LatLng(30.0444, 31.2357),
               zoom: widget.initialZoom,
             ),
             onMapCreated: (controller) {
               googleMapController = controller;
-              if (widget.initialPosition == null) {
-                _goToUserLocation();
-              }
+              // Background location fetch will handle animation
             },
             onCameraMove: (position) {
               selectedLatLng = position.target;
@@ -202,7 +235,7 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
                   child: TextField(
                     controller: searchController,
                     focusNode: searchFocusNode,
-                    style: const TextStyle(fontSize: 14,color: Colors.black),
+                    style: const TextStyle(fontSize: 14, color: Colors.black),
                     decoration: InputDecoration(
                       hintText: "Search for a location...".tr(),
                       prefixIcon: const Icon(Icons.search),

@@ -74,10 +74,20 @@ class TaxiGoogleMapViewModel extends CheckoutBaseViewModel {
     notifyListeners();
   }
 
-  void onMapCreated(GoogleMapController controller) {
+  void onMapCreated(GoogleMapController controller) async {
     googleMapController = controller;
     notifyListeners();
     setGoogleMapStyle();
+
+    // Set initial camera position to default location
+    final defaultLocation = await LocationService.getDefaultLocation();
+    if (defaultLocation != null) {
+      zoomToLocation(
+        LatLng(defaultLocation['lat']!, defaultLocation['lng']!),
+        zoom: 14,
+      );
+    }
+
     //start listening to user current location
     startUserLocationListener();
     setSourceAndDestinationIcons();
@@ -320,14 +330,21 @@ class TaxiGoogleMapViewModel extends CheckoutBaseViewModel {
       ),
     );
     //load the ploylines
-    PolylineResult polylineResult = await polylinePoints.getRouteBetweenCoordinates(
-      googleApiKey: AppStrings.googleMapApiKey,
-      request: PolylineRequest(
-        origin: PointLatLng(pickupLocation!.latitude!, pickupLocation!.longitude!),
-        destination: PointLatLng(dropoffLocation!.latitude!, dropoffLocation!.longitude!),
-        mode: TravelMode.driving,
-      ),
-    );
+    PolylineResult polylineResult = await polylinePoints
+        .getRouteBetweenCoordinates(
+          googleApiKey: AppStrings.googleMapApiKey,
+          request: PolylineRequest(
+            origin: PointLatLng(
+              pickupLocation!.latitude!,
+              pickupLocation!.longitude!,
+            ),
+            destination: PointLatLng(
+              dropoffLocation!.latitude!,
+              dropoffLocation!.longitude!,
+            ),
+            mode: TravelMode.driving,
+          ),
+        );
     //get the points from the result
     List<PointLatLng> result = polylineResult.points;
     //

@@ -5,6 +5,7 @@ import 'package:fuodz/constants/app_images.dart';
 import 'package:fuodz/constants/app_routes.dart';
 import 'package:fuodz/requests/settings.request.dart';
 import 'package:fuodz/services/auth.service.dart';
+import 'package:fuodz/services/location.service.dart';
 import 'package:fuodz/utils/ui_spacer.dart';
 import 'package:fuodz/utils/utils.dart';
 import 'package:fuodz/widgets/custom_image.view.dart';
@@ -110,8 +111,44 @@ class OnboardingViewModel extends MyBaseViewModel {
   void onDonePressed() async {
     //
     await AuthServices.firstTimeCompleted();
+
+    // Request location permission and fetch default location after onboarding
+    await _requestLocationAndFetchDefault();
+
     Navigator.of(
       viewContext,
     ).pushNamedAndRemoveUntil(AppRoutes.homeRoute, (route) => false);
+  }
+
+  /// Request location permission and fetch default location after onboarding
+  Future<void> _requestLocationAndFetchDefault() async {
+    try {
+      print("========================================");
+      print("🔵 Starting location permission request after onboarding...");
+
+      // Request location permission (like previous developer)
+      print("🔵 Requesting location permission...");
+      await LocationService.prepareLocationListener(true);
+      print("✅ Location permission request completed");
+
+      // Fetch and save default location
+      print("🔵 Fetching and saving default location...");
+      final result = await LocationService.fetchAndSaveDefaultLocation();
+
+      if (result != null) {
+        print(
+          "✅ Default location saved successfully: ${result['lat']}, ${result['lng']}",
+        );
+      } else {
+        print(
+          "⚠️ Default location not saved (permission denied or service disabled)",
+        );
+      }
+
+      print("========================================");
+    } catch (error) {
+      print("❌ Error requesting location after onboarding => $error");
+      print("========================================");
+    }
   }
 }
