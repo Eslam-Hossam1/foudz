@@ -95,52 +95,51 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
       if (mounted) {
         setState(() {
           searchSuggestions = [];
-          isLoadingSearch = false;
+          isLoadingSearch = true;
         });
       }
     }
   }
+  
 
   Future<void> _onSuggestionSelected(PlaceSuggestion suggestion) async {
-    // Close keyboard
-    searchFocusNode.unfocus();
+  // Close keyboard
+  searchFocusNode.unfocus();
 
-    // Clear suggestions but keep the selected text
-    setState(() {
-      searchSuggestions = [];
-      searchController.text = suggestion.description;
-      isLoadingAddress = false;
-    });
+  setState(() {
+    isSearching = false;
+    searchSuggestions = [];
+    searchController.text = suggestion.description;
+    isLoadingAddress = false;
+  });
 
-    try {
-      // Get place details (lat/lng)
-      final placeDetails = await GeocodingApiService.getPlaceDetails(
-        suggestion.placeId,
+  try {
+    final placeDetails = await GeocodingApiService.getPlaceDetails(
+      suggestion.placeId,
+    );
+
+    if (placeDetails != null && googleMapController != null) {
+      final newPosition = LatLng(placeDetails.lat, placeDetails.lng);
+
+      await googleMapController!.animateCamera(
+        CameraUpdate.newLatLngZoom(newPosition, 16),
       );
 
-      if (placeDetails != null && googleMapController != null) {
-        final newPosition = LatLng(placeDetails.lat, placeDetails.lng);
+      selectedLatLng = newPosition;
+      selectedAddress = suggestion.description;
 
-        // Animate camera to the selected location
-        await googleMapController!.animateCamera(
-          CameraUpdate.newLatLngZoom(newPosition, 16),
-        );
-
-        // Update selected position and address
-        selectedLatLng = newPosition;
-        selectedAddress = suggestion.description;
-
-        setState(() {
-          isLoadingAddress = false;
-        });
-      }
-    } catch (e) {
       setState(() {
         isLoadingAddress = false;
-        selectedAddress = "Unable to fetch location details".tr();
       });
     }
+  } catch (e) {
+    setState(() {
+      isLoadingAddress = false;
+      selectedAddress = "Unable to fetch location details".tr();
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -203,6 +202,7 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
                   child: TextField(
                     controller: searchController,
                     focusNode: searchFocusNode,
+                    style: const TextStyle(fontSize: 14,color: Colors.black),
                     decoration: InputDecoration(
                       hintText: "Search for a location...".tr(),
                       prefixIcon: const Icon(Icons.search),
