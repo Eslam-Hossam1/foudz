@@ -107,6 +107,10 @@ class LocationService {
     _locationData = await location.getLocation();
     geocodeCurrentLocation(oneTime);
   }
+   Future<LocationData> getLocationData() async {
+    LocationData locationData = await location.getLocation();
+    return locationData;
+  }
 
   //
   static Future<void> geocodeCurrentLocation([

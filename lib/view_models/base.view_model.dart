@@ -33,7 +33,7 @@ import 'package:fuodz/views/shared/ops_map.page.dart';
 import 'package:fuodz/widgets/bottomsheets/delivery_address_picker.bottomsheet.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_place_picker_mb_v2/google_maps_place_picker.dart';
+import 'package:fuodz/views/pages/location/custom_google_map_picker.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:share_plus/share_plus.dart';
@@ -410,20 +410,15 @@ class MyBaseViewModel extends BaseViewModel
         ),
       );
     }
-    //google maps
+
+    //google maps - use custom map picker
     return await Navigator.push(
       viewContext,
       MaterialPageRoute(
         builder:
-            (context) => PlacePicker(
-              apiKey: 'AIzaSyDnDczEoeUwf7bN5b223uvrecPVfzggE',
-              // apiKey: AppStrings.googleMapApiKey,
-              autocompleteLanguage: translator.activeLocale.languageCode,
-              region: mapRegion,
-              onPlacePicked: (result) {
-                Navigator.of(context).pop(result);
-              },
+            (context) => CustomGoogleMapPicker(
               initialPosition: initialPosition,
+              initialZoom: initialZoom,
             ),
       ),
     );

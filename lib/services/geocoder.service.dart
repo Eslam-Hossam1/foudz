@@ -54,7 +54,7 @@ class GeocoderService extends HttpService {
       return [];
     }
     //use in-app geocoding
-    final apiKey = 'AIzaSyDnDczEoeUwf7bN5b223uvrecPVfzggE';
+    final apiKey = 'AIzaSyAt4YfkHwNmHKhtVi43zfYx_bSneiN022U';
     // final apiKey = AppStrings.googleMapApiKey;
     String url =
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinates.toString()};key=$apiKey&radius=200";
@@ -125,7 +125,7 @@ class GeocoderService extends HttpService {
       return [];
     }
     //use in-app geocoding
-    final apiKey = 'AIzaSyDnDczEoeUwf7bN5b223uvrecPVfzggE';
+    final apiKey = 'AIzaSyAt4YfkHwNmHKhtVi43zfYx_bSneiN022U';
     // final apiKey = AppStrings.googleMapApiKey;
     address = address.replaceAll(" ", "+");
     String url =
@@ -173,7 +173,7 @@ class GeocoderService extends HttpService {
     }
 
     //use in-app geocoding
-    final apiKey = 'AIzaSyDnDczEoeUwf7bN5b223uvrecPVfzggE';
+    final apiKey = 'AIzaSyAt4YfkHwNmHKhtVi43zfYx_bSneiN022U';
     // final apiKey = AppStrings.googleMapApiKey;
     String url =
         "https://maps.googleapis.com/maps/api/place/details/json?fields=address_component,formatted_address,name,geometry;place_id=${address.gMapPlaceId};key=$apiKey";

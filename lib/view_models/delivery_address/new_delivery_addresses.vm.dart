@@ -64,6 +64,18 @@ class NewDeliveryAddressesViewModel extends BaseDeliveryAddressesViewModel {
       deliveryAddress!.city = locationResult.locality;
       deliveryAddress!.state = locationResult.adminArea;
       deliveryAddress!.country = locationResult.countryName;
+    } else if (result is Map<String, dynamic>) {
+      // Handle custom map picker result
+      addressTEC.text = result["name"] ?? "";
+      deliveryAddress!.address = result["name"];
+      deliveryAddress!.latitude = result["lat"];
+      deliveryAddress!.longitude = result["lng"];
+
+      // From coordinates - fetch city, state, country
+      setBusy(true);
+      deliveryAddress = await getLocationCityName(deliveryAddress!);
+      setBusy(false);
+      notifyListeners();
     }
   }
 
