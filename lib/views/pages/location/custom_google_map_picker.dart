@@ -169,7 +169,7 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
             },
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
-            zoomControlsEnabled: true,
+            zoomControlsEnabled: false,
             mapToolbarEnabled: false,
           ),
 
