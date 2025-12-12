@@ -1043,3 +1043,10 @@ US Dollar
 Egyptian Pound
 Saudi Riyal
 UAE Dirham
+
+Deposit Instructions
+You have selected
+Please send the desired amount to the wallet address below, then click "I Have Transferred".
+Copy
+Make sure to double-check the address and network before sending. Transactions cannot be reversed.
+I Have Transferred

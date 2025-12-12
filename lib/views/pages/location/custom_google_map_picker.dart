@@ -105,11 +105,11 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
     // Close keyboard
     searchFocusNode.unfocus();
 
-    // Clear suggestions
+    // Clear suggestions but keep the selected text
     setState(() {
       searchSuggestions = [];
       searchController.text = suggestion.description;
-      isLoadingAddress = true;
+      isLoadingAddress = false;
     });
 
     try {
@@ -169,7 +169,7 @@ class _CustomGoogleMapPickerState extends State<CustomGoogleMapPicker> {
             },
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
-            zoomControlsEnabled: false,
+            zoomControlsEnabled: true,
             mapToolbarEnabled: false,
           ),
 

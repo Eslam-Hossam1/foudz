@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuodz/create_deposit/presentation/pages/cash_deposit_page.dart';
+import 'package:fuodz/create_deposit/presentation/pages/deposit_instructions_page.dart';
 import 'package:fuodz/create_deposit/presentation/pages/hewalla_deposit_page.dart';
 import 'package:fuodz/create_deposit/presentation/pages/sham_cash_deposit_page.dart';
 import 'package:fuodz/create_deposit/presentation/pages/usdt_deposit_page.dart';
@@ -39,18 +40,51 @@ class ChooseMethodPageBody extends StatelessWidget {
     switch (method) {
       case DepositMethod.cash:
         page = const CashDepositPage();
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
         break;
       case DepositMethod.usdt:
-        page = const UsdtDepositPage();
+        // Show instructions page first for USDT
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder:
+                (_) => DepositInstructionsPage(
+                  methodName: method.label.tr(),
+                  walletAddress: 'TUUDPUD7pNGjGmVi7hPAWJsJm5AfQCrZHb',
+                  onConfirm: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (_) => const UsdtDepositPage(),
+                      ),
+                    );
+                  },
+                ),
+          ),
+        );
         break;
       case DepositMethod.hewalla:
         page = const HewallaDepositPage();
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
         break;
       case DepositMethod.shamCash:
-        page = const ShamCashDepositPage();
+        // Show instructions page first for Sham Cash
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder:
+                (_) => DepositInstructionsPage(
+                  methodName: method.label.tr(),
+                  walletAddress: 'b960e9f054db2bc25b4aa609660cc30b',
+                  onConfirm: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (_) => const ShamCashDepositPage(),
+                      ),
+                    );
+                  },
+                ),
+          ),
+        );
         break;
     }
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
   }
 
   @override
