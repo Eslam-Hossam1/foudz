@@ -762,5 +762,11 @@
     "Copy": "نسخ",
     "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "تأكد من التحقق مرة أخرى من العنوان والشبكة قبل الإرسال. لا يمكن عكس المعاملات.",
     "Make sure to double-check the address before sending. Transactions cannot be reversed.": "تأكد من التحقق مرة أخرى من العنوان قبل الإرسال. لا يمكن عكس المعاملات.",
-    "I Have Transferred": "لقد قمت بالتحويل"
+    "I Have Transferred": "لقد قمت بالتحويل",
+    "Move the map to select a location...": "حرك الخريطة لتحديد موقع...",
+    "Search for a location...": "ابحث عن موقع...",
+    "Unable to fetch location details": "تعذر جلب تفاصيل الموقع",
+    "Select this location": "اختر هذا الموقع",
+    "Unable to get current location": "تعذر الحصول على الموقع الحالي",
+    "Unable to fetch address": "تعذر جلب العنوان"
 }

@@ -762,5 +762,11 @@
     "Copy": "ကူးယူပါ",
     "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "ပေးပို့ခြင်းမပြုမီ လိပ်စာနှင့် ကွန်ရက်ကို နှစ်ကြိမ်စစ်ဆေးပါ။ ငွေလွှဲမှုများကို ပြန်လှည့်၍မရပါ။",
     "Make sure to double-check the address before sending. Transactions cannot be reversed.": "ပေးပို့ခြင်းမပြုမီ လိပ်စာကို နှစ်ကြိမ်စစ်ဆေးပါ။ ငွေလွှဲမှုများကို ပြန်လှည့်၍မရပါ။",
-    "I Have Transferred": "ငါလွှဲပြောင်းပြီးပြီ"
+    "I Have Transferred": "ငါလွှဲပြောင်းပြီးပြီ",
+    "Move the map to select a location...": "တည်နေရာတစ်ခုရွေးရန် မြေပုံကို ရွှေ့ပါ...",
+    "Search for a location...": "တည်နေရာကို ရှာပါ...",
+    "Unable to fetch location details": "တည်နေရာအသေးစိတ်အချက်အလက်များကို ရယူ၍မရပါ",
+    "Select this location": "ဤတည်နေရာကို ရွေးပါ",
+    "Unable to get current location": "လက်ရှိတည်နေရာကို ရယူ၍မရပါ",
+    "Unable to fetch address": "လိပ်စာကို ရယူ၍မရပါ"
 }

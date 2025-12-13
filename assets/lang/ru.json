@@ -762,5 +762,11 @@
     "Copy": "Копировать",
     "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Обязательно дважды проверьте адрес и сеть перед отправкой. Транзакции не могут быть отменены.",
     "Make sure to double-check the address before sending. Transactions cannot be reversed.": "Обязательно дважды проверьте адрес перед отправкой. Транзакции не могут быть отменены.",
-    "I Have Transferred": "Я перевел"
+    "I Have Transferred": "Я перевел",
+    "Move the map to select a location...": "Переместите карту, чтобы выбрать местоположение...",
+    "Search for a location...": "Поиск местоположения...",
+    "Unable to fetch location details": "Не удалось получить сведения о местоположении",
+    "Select this location": "Выбрать это местоположение",
+    "Unable to get current location": "Не удалось определить текущее местоположение",
+    "Unable to fetch address": "Не удалось получить адрес"
 }

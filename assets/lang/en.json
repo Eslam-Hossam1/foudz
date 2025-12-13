@@ -763,5 +763,11 @@
     "Copy": "Copy",
     "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Make sure to double-check the address and network before sending. Transactions cannot be reversed.",
     "Make sure to double-check the address before sending. Transactions cannot be reversed.": "Make sure to double-check the address before sending. Transactions cannot be reversed.",
-    "I Have Transferred": "I Have Transferred"
+    "I Have Transferred": "I Have Transferred",
+    "Move the map to select a location...": "Move the map to select a location...",
+    "Search for a location...": "Search for a location...",
+    "Unable to fetch location details": "Unable to fetch location details",
+    "Select this location": "Select this location",
+    "Unable to get current location": "Unable to get current location",
+    "Unable to fetch address": "Unable to fetch address"
 }

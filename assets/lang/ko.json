@@ -762,5 +762,11 @@
     "Copy": "복사",
     "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "보내기 전에 주소와 네트워크를 다시 확인하세요. 거래는 취소할 수 없습니다.",
     "Make sure to double-check the address before sending. Transactions cannot be reversed.": "보내기 전에 주소를 다시 확인하세요. 거래는 취소할 수 없습니다.",
-    "I Have Transferred": "송금했습니다"
+    "I Have Transferred": "송금했습니다",
+    "Move the map to select a location...": "지도를 이동하여 위치를 선택하세요...",
+    "Search for a location...": "위치 검색...",
+    "Unable to fetch location details": "위치 정보를 가져올 수 없습니다",
+    "Select this location": "이 위치 선택",
+    "Unable to get current location": "현재 위치를 가져올 수 없습니다",
+    "Unable to fetch address": "주소를 가져올 수 없습니다"
 }

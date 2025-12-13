@@ -762,5 +762,11 @@
     "Copy": "Copiar",
     "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Asegúrese de verificar dos veces la dirección y la red antes de enviar. Las transacciones no se pueden revertir.",
     "Make sure to double-check the address before sending. Transactions cannot be reversed.": "Asegúrese de verificar dos veces la dirección antes de enviar. Las transacciones no se pueden revertir.",
-    "I Have Transferred": "He transferido"
+    "I Have Transferred": "He transferido",
+    "Move the map to select a location...": "Mueve el mapa para seleccionar una ubicación...",
+    "Search for a location...": "Buscar una ubicación...",
+    "Unable to fetch location details": "No se pudieron obtener los detalles de la ubicación",
+    "Select this location": "Seleccionar esta ubicación",
+    "Unable to get current location": "No se pudo obtener la ubicación actual",
+    "Unable to fetch address": "No se pudo obtener la dirección"
 }

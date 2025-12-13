@@ -762,5 +762,11 @@
     "Copy": "Kopyala",
     "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "Göndermeden önce adresi ve ağı iki kez kontrol ettiğinizden emin olun. İşlemler geri alınamaz.",
     "Make sure to double-check the address before sending. Transactions cannot be reversed.": "Göndermeden önce adresi iki kez kontrol ettiğinizden emin olun. İşlemler geri alınamaz.",
-    "I Have Transferred": "Transfer Yaptım"
+    "I Have Transferred": "Transfer Yaptım",
+    "Move the map to select a location...": "Konum seçmek için haritayı hareket ettirin...",
+    "Search for a location...": "Bir konum arayın...",
+    "Unable to fetch location details": "Konum ayrıntıları alınamadı",
+    "Select this location": "Bu konumu seç",
+    "Unable to get current location": "Mevcut konum alınamadı",
+    "Unable to fetch address": "Adres alınamadı"
 }

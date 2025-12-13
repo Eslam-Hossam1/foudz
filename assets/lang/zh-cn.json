@@ -542,5 +542,11 @@
     "Copy": "复制",
     "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "在发送之前，请务必仔细检查地址和网络。交易无法撤销。",
     "Make sure to double-check the address before sending. Transactions cannot be reversed.": "在发送之前，请务必仔细检查地址。交易无法撤销。",
-    "I Have Transferred": "我已转账"
+    "I Have Transferred": "我已转账",
+    "Move the map to select a location...": "移动地图以选择位置...",
+    "Search for a location...": "搜索位置...",
+    "Unable to fetch location details": "无法获取位置详细信息",
+    "Select this location": "选择此位置",
+    "Unable to get current location": "无法获取当前位置",
+    "Unable to fetch address": "无法获取地址"
 }

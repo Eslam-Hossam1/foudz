@@ -762,5 +762,11 @@
     "Copy": "コピー",
     "Make sure to double-check the address and network before sending. Transactions cannot be reversed.": "送信する前にアドレスとネットワークを必ず再確認してください。取引は元に戻せません。",
     "Make sure to double-check the address before sending. Transactions cannot be reversed.": "送信する前にアドレスを必ず再確認してください。取引は元に戻せません。",
-    "I Have Transferred": "送金しました"
+    "I Have Transferred": "送金しました",
+    "Move the map to select a location...": "地図を動かして場所を選択してください...",
+    "Search for a location...": "場所を検索...",
+    "Unable to fetch location details": "場所の詳細を取得できません",
+    "Select this location": "この場所を選択",
+    "Unable to get current location": "現在の場所を取得できません",
+    "Unable to fetch address": "住所を取得できません"
 }
