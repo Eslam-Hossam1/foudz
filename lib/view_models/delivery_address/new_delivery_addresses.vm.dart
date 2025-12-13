@@ -19,8 +19,31 @@ class NewDeliveryAddressesViewModel extends BaseDeliveryAddressesViewModel {
   DeliveryAddress? deliveryAddress = new DeliveryAddress();
 
   //
-  NewDeliveryAddressesViewModel(BuildContext context) {
+  NewDeliveryAddressesViewModel(
+    BuildContext context,
+    this.initialDeliveryAddress,
+  ) {
     this.viewContext = context;
+  }
+
+  DeliveryAddress? initialDeliveryAddress;
+
+  //
+  void initialise() async {
+    if (initialDeliveryAddress != null) {
+      deliveryAddress = initialDeliveryAddress;
+      addressTEC.text = deliveryAddress?.address ?? "";
+      notifyListeners();
+
+      // Fetch city/state/country if missing (e.g. from map picker)
+      if (deliveryAddress!.latitude != null &&
+          deliveryAddress!.longitude != null &&
+          (deliveryAddress!.city == null || deliveryAddress!.city!.isEmpty)) {
+        setBusy(true);
+        deliveryAddress = await getLocationCityName(deliveryAddress!);
+        setBusy(false);
+      }
+    }
   }
 
   //

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuodz/constants/app_routes.dart';
+import 'package:fuodz/views/pages/delivery_address/new_delivery_addresses.page.dart';
 import 'package:fuodz/constants/app_strings.dart';
 import 'package:fuodz/models/delivery_address.dart';
 import 'package:fuodz/requests/delivery_address.request.dart';
@@ -120,8 +121,6 @@ class DeliveryAddressPickerViewModel extends MyBaseViewModel {
         deliveryAddress.city = addresses.first.locality;
         setBusy(false);
       }
-      //
-      this.onSelectDeliveryAddress(deliveryAddress);
     } else if (result is Address) {
       Address locationResult = result;
       deliveryAddress.address = locationResult.addressLine;
@@ -130,8 +129,25 @@ class DeliveryAddressPickerViewModel extends MyBaseViewModel {
       deliveryAddress.city = locationResult.locality;
       deliveryAddress.state = locationResult.adminArea;
       deliveryAddress.country = locationResult.countryName;
-      //
-      this.onSelectDeliveryAddress(deliveryAddress);
+    } else if (result is Map<String, dynamic>) {
+      // Handle custom map picker result
+      deliveryAddress.address = result["name"];
+      deliveryAddress.latitude = result["lat"];
+      deliveryAddress.longitude = result["lng"];
+    }
+
+    // If we have a valid result, navigate to the NewDeliveryAddressesPage
+    if (deliveryAddress.latitude != null && deliveryAddress.longitude != null) {
+      await Navigator.of(viewContext).push(
+        MaterialPageRoute(
+          builder:
+              (context) => NewDeliveryAddressesPage(
+                initialDeliveryAddress: deliveryAddress,
+              ),
+        ),
+      );
+      // Refresh the list after returning
+      fetchDeliveryAddresses();
     }
   }
 
